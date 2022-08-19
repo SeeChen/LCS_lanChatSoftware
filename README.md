@@ -1,1 +1,1 @@
-# LCS_lanChatSoftware
+# LCS Lan Chat Software
