@@ -11,7 +11,7 @@ chatWindow::chatWindow(QWidget *parent) :
     this->setFont(v);
 
     //UI界面设置
-    ui->labelChatting->setAttribute(Qt::WA_TranslucentBackground,true);
+    //ui->labelChatting->setAttribute(Qt::WA_TranslucentBackground,true);
 }
 
 chatWindow::~chatWindow()
