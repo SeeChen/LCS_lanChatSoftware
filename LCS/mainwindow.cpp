@@ -6,7 +6,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //heelo
+    this->setWindowTitle("LCS");
+    QFont v ("Simsun",10);
+    this->setFont(v);
+
+    //UI界面设置
+    ui->lineEditSearch->setPlaceholderText("搜索");
 }
 
 MainWindow::~MainWindow()
