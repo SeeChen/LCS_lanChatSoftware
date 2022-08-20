@@ -30,13 +30,13 @@
      </sizepolicy>
     </property>
    </widget>
-   <widget class="QLabel" name="PicLabel">
+   <widget class="QLabel" name="labelPic">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>320</x>
       <y>10</y>
-      <width>50</width>
-      <height>50</height>
+      <width>60</width>
+      <height>60</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -96,23 +96,18 @@
    <widget class="QListView" name="listView">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>130</y>
+      <x>10</x>
+      <y>470</y>
       <width>400</width>
       <height>651</height>
      </rect>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>400</width>
-     <height>21</height>
-    </rect>
-   </property>
+   <zorder>lineEditSearch</zorder>
+   <zorder>labelCreateGroup</zorder>
+   <zorder>labelAddFriend</zorder>
+   <zorder>listView</zorder>
+   <zorder>labelPic</zorder>
   </widget>
  </widget>
  <resources/>
