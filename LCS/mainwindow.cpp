@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //移入代码by:誉航
-    //先试看在这里加db
+    ui->pushButtonDelete->setEnabled(false);
 
     createTable();
     showTable();
@@ -123,44 +123,57 @@ void MainWindow::on_pushButtonAdd_clicked()
 
 void MainWindow::on_pushButtonDelete_clicked()
 {
-    if(selectedIdFromTable == NULL){
-        //1.获得信息
-        QItemSelectionModel *selected = ui->tableView->selectionModel();
-        QModelIndexList selectedInd =selected->selectedIndexes();
-        qDebug()<<"-----";
-        qDebug()<<selectedInd.first().row();
-        qDebug()<<"-----";
-        qDebug()<<selectedInd.first().data().toInt();
-        qDebug()<<selectedInd.at(1).data().toString();
+    int value = QMessageBox::question(this,"警告","确定删除好友吗？",QMessageBox::Yes,QMessageBox::No);
+    switch(value){
+    case QMessageBox::Yes:
+        if(selectedIdFromTable == NULL){
+            //1.获得信息
+            QItemSelectionModel *selected = ui->tableView->selectionModel();
+            QModelIndexList selectedInd =selected->selectedIndexes();
+            qDebug()<<"-----";
+            qDebug()<<selectedInd.first().row();
+            qDebug()<<"-----";
+            qDebug()<<selectedInd.first().data().toInt();
+            qDebug()<<selectedInd.at(1).data().toString();
 
-        //获取其信息。现在要通过这两个信息来删除他的朋友
-        selectedId = selectedInd.first().data().toInt();
-        selectedName = selectedInd.at(1).data().toString();
+            //获取其信息。现在要通过这两个信息来删除他的朋友
+            selectedId = selectedInd.first().data().toInt();
+            selectedName = selectedInd.at(1).data().toString();
 
-        QSqlQuery query;
-        QString queryString(QString("delete from user where id = %1;").arg(selectedId));
-        qDebug()<<queryString;
-        query.prepare(queryString);
-        query.exec();
+            QSqlQuery query;
+            QString queryString(QString("delete from user where id = %1;").arg(selectedId));
+            qDebug()<<queryString;
+            query.prepare(queryString);
+            query.exec();
 
-    }else{
-        //2.删除
-        //需要连接数据库通过sql语句实行删除数据。
-        QSqlQuery query;
-        QString queryString(QString("delete from user where id = %1;").arg(selectedIdFromTable));
-        qDebug()<<queryString;
-        query.prepare(queryString);
-        query.exec();
+        }else{
+            //2.删除
+            //需要连接数据库通过sql语句实行删除数据。
+            QSqlQuery query;
+            QString queryString(QString("delete from user where id = %1;").arg(selectedIdFromTable));
+            qDebug()<<queryString;
+            query.prepare(queryString);
+            query.exec();
 
-        selectedIdFromTable=NULL;
+            selectedIdFromTable=NULL;
+        }
+
+        //3.更新
+        model->submitAll();
+        model->select();
+
+        //4.刷新会原本界面
+        ui->tableView->setModel(model);
+
+
+        break;
+    case QMessageBox::No:
+        return;
+        break;
     }
 
-    //3.更新
-    model->submitAll();
-    model->select();
 
-    //4.刷新会原本界面
-    ui->tableView->setModel(model);
+    ui->pushButtonDelete->setEnabled(false);
 
 }
 
@@ -206,9 +219,11 @@ void MainWindow::on_lineEditSearch_textChanged(const QString &arg1)
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
+    ui->pushButtonDelete->setEnabled(true);
     //想要获取其id并且删除他，可点击任意值在该行
     qDebug()<<index.sibling(index.row(),0).data().toInt();
     selectedIdFromTable = index.sibling(index.row(),0).data().toInt();
 }
+
 
 
