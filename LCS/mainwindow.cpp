@@ -45,10 +45,170 @@ MainWindow::MainWindow(QWidget *parent)
     painter.drawPixmap(0,y+increment,radius*2,radius*2,p);
     ui->labelPic->setPixmap(target);
     this->update();
+
+
+    //移入代码by:誉航
+    //先试看在这里加db
+
+    createTable();
+    showTable();
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::createTable()
+{
+    userDataBase dataBaseAtMainWindow;
+
+    //这里的db需要从db类获取（未实现）
+    int opened = dataBaseAtMainWindow.connectDataBase();
+
+    if(false == opened)
+    {
+        QMessageBox::warning(this,"打开数据库错误","打不开数据库");
+        return;
+    }
+
+    QSqlQuery query;
+
+    //这里需要依据user(id)来制造表格（可能可以在register时就弄出来）（未实现）
+    query.exec("create table user(id int primary key, name varchar(25));");
+
+    //（未实现）
+    query.exec("insert into user(id, name) values (1,'朋友1');");
+
+    //批量
+    query.prepare("insert into user(id,name) values(?,?)");
+
+    //example
+    QVariantList nameList;
+    nameList << "朋友2"<<"朋友3"<<"朋友4"<<"朋友5";
+    QVariantList idList;
+    idList << 2 << 3 << 4 << 5;
+
+    query.addBindValue(idList);
+    query.addBindValue(nameList);
+    //将上述都处理
+    query.execBatch();
+}
+
+void MainWindow::showTable()
+{
+    model = new QSqlTableModel(this);
+    //(未实现)
+    model->setTable("user");
+
+    ui->tableView->setModel(model);
+
+    model->select();
+}
+
+void MainWindow::on_pushButtonAdd_clicked()
+{
+    int id = ui->lineEditAddId->text().toInt();
+    QSqlRecord record = model->record();
+    record.setValue(0,id);
+    record.setValue(1,"添加名字");
+
+    int row = model->rowCount();
+    model->insertRecord(row,record);
+
+    ui->lineEditAddId->clear();
+
+}
+
+void MainWindow::on_pushButtonDelete_clicked()
+{
+    if(selectedIdFromTable == NULL){
+        //1.获得信息
+        QItemSelectionModel *selected = ui->tableView->selectionModel();
+        QModelIndexList selectedInd =selected->selectedIndexes();
+        qDebug()<<"-----";
+        qDebug()<<selectedInd.first().row();
+        qDebug()<<"-----";
+        qDebug()<<selectedInd.first().data().toInt();
+        qDebug()<<selectedInd.at(1).data().toString();
+
+        //获取其信息。现在要通过这两个信息来删除他的朋友
+        selectedId = selectedInd.first().data().toInt();
+        selectedName = selectedInd.at(1).data().toString();
+
+        QSqlQuery query;
+        QString queryString(QString("delete from user where id = %1;").arg(selectedId));
+        qDebug()<<queryString;
+        query.prepare(queryString);
+        query.exec();
+
+    }else{
+        //2.删除
+        //需要连接数据库通过sql语句实行删除数据。
+        QSqlQuery query;
+        QString queryString(QString("delete from user where id = %1;").arg(selectedIdFromTable));
+        qDebug()<<queryString;
+        query.prepare(queryString);
+        query.exec();
+
+        selectedIdFromTable=NULL;
+    }
+
+    //3.更新
+    model->submitAll();
+    model->select();
+
+    //4.刷新会原本界面
+    ui->tableView->setModel(model);
+
+}
+
+void MainWindow::on_pushButtonSort_clicked()
+{
+    model->setSort(0,Qt::AscendingOrder);
+
+    model->submitAll();
+    model->select();
+
+    ui->tableView->setModel(model);
+}
+
+void MainWindow::on_lineEditSearch_textChanged(const QString &arg1)
+{
+    qDebug()<<arg1;
+
+    if(arg1 == ""){
+        ui->tableView->setModel(model);
+    }else{
+        //临时查找
+        QSqlQuery query;
+        QSqlQueryModel *modal = new QSqlQueryModel();
+
+        //！！！！此地方的名字查找未完成！！！！
+        QString queryString(QString("select * from user where name LIKE '%1%' or id = %1;").arg(arg1));
+
+        qDebug()<<queryString;
+
+        query.prepare(queryString);
+        query.exec();
+
+        while(true == query.next()){
+            qDebug()<<query.value(0).toString()
+                   <<query.value(1).toString();
+        }
+
+        //在表上显示
+        modal->setQuery(query);
+        ui->tableView->setModel(modal);
+    }
+}
+
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
+{
+    //想要获取其id并且删除他，可点击任意值在该行
+    qDebug()<<index.sibling(index.row(),0).data().toInt();
+    selectedIdFromTable = index.sibling(index.row(),0).data().toInt();
+}
+
 
