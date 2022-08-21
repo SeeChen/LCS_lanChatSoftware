@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
     chatWindow w3;
     w3.show();
 
-    Register w4;
-    w4.show();
+    //Register w4;
+    //w4.show();
 
     return a.exec();
 }

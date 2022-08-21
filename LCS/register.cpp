@@ -102,10 +102,12 @@ void Register::RegistertoLogin()
         {
             QMessageBox::information(this,"注册失败","已存在此账号");
         }
-    }
-    else
-    {
+     }
+     else
+     {
         QMessageBox::information(this,"注册失败","两次密码输入不一致");
+     }
     }*/
-    }
 }
+}
+
