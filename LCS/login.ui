@@ -40,7 +40,7 @@
     <rect>
      <x>150</x>
      <y>360</y>
-     <width>300</width>
+     <width>321</width>
      <height>40</height>
     </rect>
    </property>
@@ -53,28 +53,9 @@
     <rect>
      <x>150</x>
      <y>410</y>
-     <width>300</width>
+     <width>321</width>
      <height>40</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelRegister">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>460</y>
-     <width>61</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>SimSun-ExtB</family>
-     <pointsize>7</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>立即注册</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonLogin">
@@ -82,7 +63,7 @@
     <rect>
      <x>150</x>
      <y>500</y>
-     <width>300</width>
+     <width>321</width>
      <height>30</height>
     </rect>
    </property>
@@ -90,7 +71,80 @@
     <string>登录</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonRegister">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>540</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>注册账号</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>463</y>
+     <width>321</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QCheckBox" name="checkBoxAutoLogin">
+      <property name="text">
+       <string>自动登录</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="checkBoxRememberPassword">
+      <property name="text">
+       <string>记住密码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonFindPassword">
+      <property name="text">
+       <string>找回密码</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="labelEye">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>420</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="LCSimage.qrc">:/image/eyeopen.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="LCSimage.qrc"/>
+ </resources>
  <connections/>
 </ui>

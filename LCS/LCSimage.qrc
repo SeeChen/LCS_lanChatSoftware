@@ -4,5 +4,7 @@
         <file>image/defaultuser.jpg</file>
         <file>image/Luffy.png</file>
         <file>image/Sunny.jpg</file>
+        <file>image/eyeclose.png</file>
+        <file>image/eyeopen.png</file>
     </qresource>
 </RCC>

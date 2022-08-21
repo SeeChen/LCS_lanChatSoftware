@@ -2,6 +2,10 @@
 #define LOGIN_H
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QPainter>
+#include <QDebug>
+#include <QEvent>
 
 namespace Ui {
 class logIn;
@@ -17,6 +21,16 @@ public:
 
 private:
     Ui::logIn *ui;
+    QLineEdit *lineEdit_Password;
+
+protected:
+    //void paintEvent(QPaintEvent *);
+    //密码显示功能
+    bool eventFilter(QObject *watched, QEvent *event);
+
+private slots:
+    void on_pushButtonLogin_pressed();
+    void on_pushButtonRegister_pressed();
 };
 
 #endif // LOGIN_H
