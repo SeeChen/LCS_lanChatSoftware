@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     register.cpp \
+    server.cpp \
     userdatabase.cpp
 
 HEADERS += \
@@ -28,13 +29,15 @@ HEADERS += \
     login.h \
     mainwindow.h \
     register.h \
+    server.h \
     userdatabase.h
 
 FORMS += \
     UI/mainwindow.ui \
     chatwindow.ui \
     login.ui \
-    register.ui
+    register.ui \
+    server.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
