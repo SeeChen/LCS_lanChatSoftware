@@ -29,10 +29,12 @@ public:
     QSqlQuery dbQuery;
 
     QHash <int, QTcpSocket*> socketHash;    // 保存 UID 与 socket 对象的关系
+    QHash <int, QString> onlineHash;
 
-    int  userLogin(QString);
-    int  userRegister(QString);
-    void sendMessage(QString);
+    int     userLogin(QString);
+    int     userRegister(QString);
+    void    sendMessage(QString, int);
+    void    onlineList(int);
 
 public slots:
     void on_LCSServer_newConnection();

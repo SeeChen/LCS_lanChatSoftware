@@ -114,7 +114,7 @@ int LCS_Server::userRegister(QString data)
     return UID;
 }
 
-void LCS_Server::sendMessage(QString data)
+void LCS_Server::sendMessage(QString data, int UID)
 {
     /* 格式
      * 0 : Target ID
@@ -127,18 +127,45 @@ void LCS_Server::sendMessage(QString data)
     QString message = dataList.at(1).toUtf8();
     int        type = dataList.at(2).toUInt();
 
-    socketHash.find(targetID).value()->write(message.toUtf8());
+    QString msg = QString("%1%%%2%%%3").arg(UID).arg(message).arg(type);
+
+    socketHash.find(targetID).value()->write(msg.toUtf8());
+}
+
+void LCS_Server::onlineList(int UID)
+{
+    QHashIterator<int, QString> iter(onlineHash);
+
+    QString onlineUser = "";
+    while(iter.hasNext()) {
+        iter.next();
+        onlineUser = onlineUser + QString("%1:%2%%").arg(iter.key()).arg(iter.value());
+    }
+
+    socketHash.find(UID).value()->write(onlineUser.toUtf8());
 }
 
 void LCS_Server::on_LCSServer_newConnection()
 {
     if (lcsServer.hasPendingConnections()) {
         QTcpSocket *newSocket = lcsServer.nextPendingConnection();
-        //socketList.append(newSocket);
 
         QLabel *label = new QLabel();
         label->setText(newSocket->peerAddress().toString());
         ui->ConnectdDeviceList->addWidget(label);
+
+        connect(newSocket, &QTcpSocket::disconnected,
+                [=]()
+        {
+            QHashIterator<int, QTcpSocket*> iter(socketHash);
+            while(iter.hasNext()) {
+                iter.next();
+                if(newSocket == iter.value()) {
+                    socketHash.remove(iter.key());
+                    onlineHash.remove(iter.key());
+                }
+            }
+        });
 
         connect(newSocket, &QTcpSocket::readyRead,
                 [=]()
@@ -195,6 +222,11 @@ void LCS_Server::on_LCSServer_newConnection()
             // 判断 UID 是否第一次连接
             if(!socketHash.contains(UID)) {
                 socketHash.insert(UID, newSocket);
+
+                dbQuery.exec(QString("SELECT * FROM UserList WHERE UID=%1").arg(UID));
+                dbQuery.next();
+                QString newOnline = dbQuery.value(2).toString();
+                onlineHash.insert(UID, newOnline);
             }
 
             // 判断用户操作
@@ -202,7 +234,10 @@ void LCS_Server::on_LCSServer_newConnection()
                 case todoAction::EDITPROFILE:
                     break;
                 case todoAction::SENDMESSAGE:
-                    sendMessage(ClientMsg);
+                    sendMessage(ClientMsg, UID);
+                    break;
+                case todoAction::ONLINELIST:
+                    onlineList(UID);
                     break;
             }
         });
