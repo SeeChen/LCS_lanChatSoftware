@@ -3,6 +3,7 @@
 #include "chatwindow.h"
 #include "userdatabase.h"
 #include "register.h"
+#include "server.h"
 
 #include <QApplication>
 
@@ -21,6 +22,9 @@ int main(int argc, char *argv[])
 
     //Register w4;
     //w4.show();
+
+    Server w5;
+    w5.show();
 
     return a.exec();
 }
