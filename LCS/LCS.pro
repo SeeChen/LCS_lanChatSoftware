@@ -22,6 +22,7 @@ SOURCES += \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
+    register.cpp \
     server.cpp \
     userdatabase.cpp
 
@@ -31,6 +32,7 @@ HEADERS += \
     launchpage.h \
     login.h \
     mainwindow.h \
+    register.h \
     server.h \
     userdatabase.h
 
@@ -39,6 +41,7 @@ FORMS += \
     chatwindow.ui \
     launchpage.ui \
     login.ui \
+    register.ui \
     server.ui
 
 # Default rules for deployment.

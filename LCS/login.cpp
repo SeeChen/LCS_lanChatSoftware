@@ -43,6 +43,8 @@ logIn::logIn(QWidget *parent) :
     const QIcon usernameIcon(":/image/Username.png");
     const QIcon passwordIcon(":/image/Password.ico");
 
+    ui->lineEditUsername->setValidator(new QRegExpValidator(QRegExp("[0-9a-zA-Z]*"), ui->lineEditUsername));
+
     ui->lineEditUsername->addAction(usernameIcon, QLineEdit::LeadingPosition);
     ui->lineEditPassword->addAction(passwordIcon, QLineEdit::LeadingPosition);
 
@@ -115,4 +117,9 @@ void logIn::responseLogin()
 
     ui->lineEditUsername->clear();
     ui->lineEditPassword->clear();
+}
+
+void logIn::on_pushButtonRegister_clicked()
+{
+    emit registerOpen();
 }

@@ -216,7 +216,9 @@ void LCS_Server::on_LCSServer_newConnection()
                 } else {
                     UID = newUid;
 
-                    QString verifiedMsg = QString("LCS|%1|%2").arg(serverAction::VERIFIED).arg(QString("%1%%%2").arg("UID").arg(UID));
+                    QString NickName = ClientMsg.split("%%").at(0);
+
+                    QString verifiedMsg = QString("LCS|%1|%2").arg(serverAction::VERIFIED).arg(QString("%1%%%2").arg(UID).arg(NickName));
                     newSocket->write(verifiedMsg.toUtf8());
                 }
             }

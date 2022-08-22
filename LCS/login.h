@@ -33,8 +33,12 @@ public slots:
 private slots:
     void on_pushButtonLogin_clicked();
 
+    void on_pushButtonRegister_clicked();
+
 signals:
     void requestLogin(QString, QString);
+
+    void registerOpen();
 };
 
 #endif // LOGIN_H

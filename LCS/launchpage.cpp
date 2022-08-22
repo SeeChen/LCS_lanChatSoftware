@@ -3,6 +3,8 @@
 
 #include "enum_Var.h"
 
+#include <QRegExpValidator>
+
 LaunchPage::LaunchPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LaunchPage)
@@ -46,6 +48,7 @@ LaunchPage::LaunchPage(QWidget *parent) :
             case serverAction::MESSAGE:
                 break;
             case serverAction::VERIFIED:
+                responseVertify(serverMsg);
                 break;
         }
     });
@@ -53,6 +56,9 @@ LaunchPage::LaunchPage(QWidget *parent) :
     // 与 Login 界面进行通信
     connect(&loginPage, &logIn::requestLogin,      this,       &LaunchPage::requestLogin);
     connect(this      , &LaunchPage::responseLogin, &loginPage, &logIn::responseLogin);
+
+    // 打开注册页面
+    connect(&loginPage, &logIn::registerOpen, this, &LaunchPage::registerOpen);
 }
 
 LaunchPage::~LaunchPage()
@@ -71,11 +77,27 @@ void LaunchPage::responseError(QString data)
     }
 }
 
+void LaunchPage::responseVertify(QString data)
+{
+    QStringList strList = data.split("%%");
+
+    UID   = strList.at(0).toInt();
+    UNAME = strList.at(1);
+
+    qDebug() << UID << " : " << UNAME;
+}
+
 void LaunchPage::requestLogin(QString UsrName, QString UsrPwrd)
 {
     QString loginMsg = QString("LCS|%1|%2|%3%%%4").arg(0).arg(todoAction::LOGIN).arg(UsrName).arg(UsrPwrd);
 
     clientSocket->write(loginMsg.toUtf8());
+}
+
+void LaunchPage::registerOpen()
+{
+    loginPage.close();
+    registerPage.show();
 }
 
 // Connect 点击事件

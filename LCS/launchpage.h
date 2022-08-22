@@ -24,15 +24,21 @@ public:
 
     QTcpSocket *clientSocket;
 
+    int     UID   = 0;
+    QString UNAME = "";
+
     logIn      loginPage;
-    //Register   registerPage;
+    Register   registerPage;
     MainWindow mainPage;
     chatWindow chatPage;
 
     void responseError(QString);
+    void responseVertify(QString);
 
 public slots:
     void requestLogin(QString, QString);    // 请求登录
+
+    void registerOpen();
 
 private slots:
     void on_btn_Connect_clicked();

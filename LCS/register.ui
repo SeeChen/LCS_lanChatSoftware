@@ -1,21 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>Register</class>
  <widget class="QWidget" name="Register">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLineEdit" name="lineEdit_UserName"/>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="lineEdit_Password"/>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="lineEdit_Configm"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btn_Register">
+     <property name="text">
+      <string>注册</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btn_Back">
+     <property name="text">
+      <string>返回</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>
