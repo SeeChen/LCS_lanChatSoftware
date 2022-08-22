@@ -12,7 +12,8 @@ enum todoAction {
 
 enum serverAction {
     ERROR,
-    MESSAGE
+    MESSAGE,
+    VERIFIED
 };
 
 #endif // TODOACTION_H

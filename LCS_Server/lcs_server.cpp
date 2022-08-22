@@ -35,9 +35,9 @@ LCS_Server::LCS_Server(QWidget *parent)
     }
     if(dbExists == false) {
         dbQuery.exec("CREATE TABLE UserList (UID INT UNIQUE, Password varchar(255), nickName varchar(255));");
-        dbQuery.exec("INSERT INTO UserList VALUES (1, 'dsdfsdfs', 'fdsafsf');");
     }
 
+    // 用于调试 打包后删除
     dbQuery.exec("SELECT * FROM UserList");
     while (dbQuery.next()) {
         qDebug() << dbQuery.value(0).toInt() << dbQuery.value(1).toString() << dbQuery.value(2).toString();
@@ -59,13 +59,14 @@ LCS_Server::~LCS_Server()
 bool LCS_Server::userLogin(QString data)
 {
     /* 格式
-     * 0 : UID
+     * 0 : nickName
      * 1 : 已加密的密码
     */
     QStringList dataList = data.split("%%");
 
-    QString       UID = dataList.at(0).toUtf8();
-    QString UPassword = dataList.at(0).toUtf8();
+    QString  UserName = dataList.at(0).toUtf8();
+    QString UPassword = dataList.at(1).toUtf8();
+
 
 }
 
@@ -73,15 +74,19 @@ int LCS_Server::userRegister(QString data)
 {
     /* 格式
      * 0 昵称
-     * 1 UID
-     * 2 已加密的密码
+     * 1 已加密的密码
     */
 
     QStringList dataList = data.split("%%");
 
+    dbQuery.exec("SELECT count(*) FROM UserList");
+    dbQuery.next();
+
+    int count = dbQuery.value(0).toInt();
+
+    int             UID = count + 1;
     QString    nickName = dataList.at(0).toUtf8();
-    int             UID = dataList.at(1).toInt();
-    QString md5Password = dataList.at(2).toUtf8();
+    QString md5Password = dataList.at(1).toUtf8();
 
     dbQuery.exec(QString("SELECT * FROM UserList WHERE nickName='%1';").arg(nickName));
 
@@ -163,9 +168,12 @@ void LCS_Server::on_LCSServer_newConnection()
 
                     newSocket->write(errMsg.toUtf8());
                     return;
-                }
+                } else {
+                    UID = newUid;
 
-                UID = newUid;
+                    QString verifiedMsg = QString("LCS|%1|%2").arg(serverAction::VERIFIED).arg(QString("%1%%%2").arg("UID").arg(UID));
+                    newSocket->write(verifiedMsg.toUtf8());
+                }
             }
 
             // 判断 UID 是否第一次连接
