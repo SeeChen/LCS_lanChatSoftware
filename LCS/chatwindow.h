@@ -36,6 +36,8 @@ private slots:
 
     void on_pushButtonSend_clicked();
 
+    void on_pushButtonChangeBg_clicked();
+
 private:
     Ui::chatWindow *ui;
     QFile file; //文件对象

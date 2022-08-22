@@ -163,7 +163,13 @@ void chatWindow::on_pushButtonChangeBg_clicked()
 
         //打开文件
         bool isOk = file.open(QIODevice::ReadOnly);
-        ui->labelChatting->setPixmap(filePath);
+        if(false == isOk)
+        {
+            qDebug() << "Faied to Open file (Read only) 106";
+        }
+        QPainter p;
+        p.begin(this);
+        p.drawPixmap(ui->labelChatting->geometry())
 
     }
 
