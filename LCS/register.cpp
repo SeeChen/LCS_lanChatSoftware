@@ -82,7 +82,7 @@ void Register::RegistertoLogin()
     }
     else if(PASS==PASS2)
     {
-        char * user=const_cast<char *>(USER.toStdString().c_str());
+        //char * user=const_cast<char *>(USER.toStdString().c_str());
 
         QString PassMD5;
         QString passWd=PASS;
