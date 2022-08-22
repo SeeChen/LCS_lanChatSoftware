@@ -35,6 +35,12 @@ LCS_Server::LCS_Server(QWidget *parent)
     }
     if(dbExists == false) {
         dbQuery.exec("CREATE TABLE UserList (UID INT UNIQUE, Password varchar(255), nickName varchar(255));");
+        dbQuery.exec("INSERT INTO UserList VALUES (1, 'dsdfsdfs', 'fdsafsf');");
+    }
+
+    dbQuery.exec("SELECT * FROM UserList");
+    while (dbQuery.next()) {
+        qDebug() << dbQuery.value(0).toInt() << dbQuery.value(1).toString() << dbQuery.value(2).toString();
     }
 
     ui->label_IP->setText(": " + ipv4->DeviceIP);
@@ -77,13 +83,14 @@ int LCS_Server::userRegister(QString data)
     int             UID = dataList.at(1).toInt();
     QString md5Password = dataList.at(2).toUtf8();
 
-    dbQuery.exec(QString("SELECT * FROM userList WHERE nickName=%1").arg(nickName));
+    dbQuery.exec(QString("SELECT * FROM UserList WHERE nickName='%1';").arg(nickName));
 
     if(dbQuery.next()) {
+        qDebug() << dbQuery.value(0).toString();
         return 0;
     }
 
-    dbQuery.exec(QString("INSERT INTO userList VALUES(%1, %2, %3)").arg(UID).arg(md5Password).arg(nickName));
+    dbQuery.exec(QString("INSERT INTO UserList VALUES(%1, '%2', '%3')").arg(UID).arg(md5Password).arg(nickName));
 
     return UID;
 }
@@ -97,9 +104,11 @@ void LCS_Server::sendMessage(QString data)
     */
     QStringList dataList = data.split("%%");
 
-    qDebug() << "fdsfds";
+    int    targetID = dataList.at(0).toInt();
+    QString message = dataList.at(1).toUtf8();
+    int        type = dataList.at(2).toUInt();
 
-    socketHash.find(dataList.at(0).toInt()).value()->write(dataList.at(1).toUtf8());
+    socketHash.find(targetID).value()->write(message.toUtf8());
 }
 
 void LCS_Server::on_LCSServer_newConnection()
@@ -149,6 +158,10 @@ void LCS_Server::on_LCSServer_newConnection()
                 }
 
                 if(newUid == 0) {
+                    returnLoginError *err = new returnLoginError();
+                    QString errMsg = err->errorMessage(ClientAction);
+
+                    newSocket->write(errMsg.toUtf8());
                     return;
                 }
 
