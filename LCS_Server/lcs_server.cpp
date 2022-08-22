@@ -56,7 +56,7 @@ LCS_Server::~LCS_Server()
     delete ui;
 }
 
-bool LCS_Server::userLogin(QString data)
+int LCS_Server::userLogin(QString data)
 {
     /* 格式
      * 0 : nickName
@@ -67,6 +67,20 @@ bool LCS_Server::userLogin(QString data)
     QString  UserName = dataList.at(0).toUtf8();
     QString UPassword = dataList.at(1).toUtf8();
 
+    dbQuery.exec(QString("SELECT * FROM UserList WHERE nickName='%1';").arg(UserName));
+
+    if(dbQuery.next()) {
+        QString UserPassword = dbQuery.value(1).toString();
+
+        if(UPassword != UserPassword) {
+            return 0;
+        }
+
+        return dbQuery.value(0).toUInt();
+    } else {
+
+        return 0;
+    }
 
 }
 
@@ -155,6 +169,8 @@ void LCS_Server::on_LCSServer_newConnection()
                 int newUid = 0;
                 switch(ClientAction) {
                     case todoAction::LOGIN:
+
+                        newUid = userLogin(ClientMsg);
                         break;
                     case todoAction::REGISTER:
 

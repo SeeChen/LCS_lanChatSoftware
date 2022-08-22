@@ -30,7 +30,7 @@ public:
 
     QHash <int, QTcpSocket*> socketHash;    // 保存 UID 与 socket 对象的关系
 
-    bool userLogin(QString);
+    int  userLogin(QString);
     int  userRegister(QString);
     void sendMessage(QString);
 
