@@ -173,6 +173,8 @@ void LCS_Server::on_LCSServer_newConnection()
             QByteArray array = newSocket->readAll();
             QString tempStr = QString(array);
 
+            qDebug() << tempStr;    // 调试
+
             /* 列表格式
              * 0 : 验证是否为 LCS 客户端发来的消息
              * 1 : 用户 ID , 0 表示没有用户 id

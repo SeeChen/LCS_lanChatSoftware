@@ -108,13 +108,6 @@
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="pushButtonFindPassword">
-      <property name="text">
-       <string>找回密码</string>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QLabel" name="labelEye">

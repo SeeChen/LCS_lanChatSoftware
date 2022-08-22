@@ -18,26 +18,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     chatwindow.cpp \
+    launchpage.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
-    register.cpp \
     server.cpp \
     userdatabase.cpp
 
 HEADERS += \
     chatwindow.h \
+    enum_Var.h \
+    launchpage.h \
     login.h \
     mainwindow.h \
-    register.h \
     server.h \
     userdatabase.h
 
 FORMS += \
     UI/mainwindow.ui \
     chatwindow.ui \
+    launchpage.ui \
     login.ui \
-    register.ui \
     server.ui
 
 # Default rules for deployment.

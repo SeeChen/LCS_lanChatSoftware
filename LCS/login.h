@@ -24,13 +24,17 @@ private:
     QLineEdit *lineEdit_Password;
 
 protected:
-    //void paintEvent(QPaintEvent *);
     //密码显示功能
     bool eventFilter(QObject *watched, QEvent *event);
 
+public slots:
+    void responseLogin();
+
 private slots:
-    void on_pushButtonLogin_pressed();
-    void on_pushButtonRegister_pressed();
+    void on_pushButtonLogin_clicked();
+
+signals:
+    void requestLogin(QString, QString);
 };
 
 #endif // LOGIN_H

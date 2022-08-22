@@ -1,9 +1,4 @@
-#include "mainwindow.h"
-#include "login.h"
-#include "chatwindow.h"
-#include "userdatabase.h"
-#include "register.h"
-#include "server.h"
+#include "launchpage.h"
 
 #include <QApplication>
 
@@ -11,20 +6,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    MainWindow w;
-    w.show();
+    LaunchPage launchPage;
 
-//    logIn w2;
-//    w2.show();
+    launchPage.setMaximumSize(400, 100);
+    launchPage.setMinimumSize(400, 100);
 
-    //chatWindow w3;
-    //w3.show();
+    launchPage.setWindowTitle("Input Server IP Address");
 
-    //Register w4;
-    //w4.show();
-
-//    Server w5;
-//    w5.show();
+    launchPage.show();
 
     return a.exec();
 }
