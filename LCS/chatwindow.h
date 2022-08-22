@@ -6,10 +6,12 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QString>
+#include <QStackedWidget>
+#include <QImage>
+
 #include <QTimer>
 #include <QTcpSocket>
 #include <QTcpServer>
-#include <QImage>
 
 namespace Ui {
 class chatWindow;
