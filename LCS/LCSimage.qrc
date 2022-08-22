@@ -6,5 +6,7 @@
         <file>image/Sunny.jpg</file>
         <file>image/eyeclose.png</file>
         <file>image/eyeopen.png</file>
+        <file>image/Password.ico</file>
+        <file>image/Username.png</file>
     </qresource>
 </RCC>

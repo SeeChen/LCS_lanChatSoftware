@@ -32,12 +32,19 @@ logIn::logIn(QWidget *parent) :
     painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
 
     QPainterPath path = QPainterPath();
-    path.addRoundedRect(150,150,350,350,200,200);
+    path.addRoundedRect(120,150,350,350,200,200);
     painter.setClipPath(path);
-    painter.drawPixmap(150,150,p);
+    painter.drawPixmap(120,150,p);
     ui->labelPic->setPixmap(target);
     this->update();
 
+    //用户名和密码的icon
+    const QIcon usernameIcon(":/image/Username.png");
+    const QIcon passwordIcon(":/image/Password.ico");
+    ui->lineEditUsername->setClearButtonEnabled(true);
+    ui->lineEditUsername->addAction(usernameIcon,QLineEdit::LeadingPosition);
+    ui->lineEditPassword->setClearButtonEnabled(true);
+    ui->lineEditPassword->addAction(passwordIcon,QLineEdit::LeadingPosition);
 
     //用户名提示
     ui->lineEditUsername->setPlaceholderText("用户名");
