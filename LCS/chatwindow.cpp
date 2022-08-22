@@ -1,6 +1,9 @@
 #include "chatwindow.h"
 #include "ui_chatwindow.h"
 
+#include "emoticonwidget.h"
+#include "emojipack.h"
+
 chatWindow::chatWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::chatWindow)
@@ -14,7 +17,7 @@ chatWindow::chatWindow(QWidget *parent) :
     ui->labelChatting->setAttribute(Qt::WA_TranslucentBackground,true);
     ui->labelChatting->setMargin(10);
 
-
+    
 }
 
 chatWindow::~chatWindow()
@@ -137,4 +140,24 @@ void chatWindow::on_pushButtonSend_clicked()
     ui->labelChatting->setText(textLog);
 
     ui->textEdit->clear();// 清空TextEdit
+}
+
+bool chatWindow::loadThemeFile(QString str){
+    QFile *lobConfigFile = new QFile(str);
+    if(!lobConfigFile->open(QFile::ReadOnly)){
+
+        return false;
+    }
+
+    QFile style(str);
+
+    if(style.exists() && style.open(QFile::ReadOnly)) {
+        QString styleContents = QLatin1String(style.readAll());
+        style.close();
+        this->setStyleSheet(styleContents);
+    }
+
+    lobConfigFile->close();
+
+    return true;
 }

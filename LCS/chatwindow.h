@@ -25,6 +25,8 @@ public:
     explicit chatWindow(QWidget *parent = nullptr);
     ~chatWindow();
 
+    bool loadThemeFile(QString);
+
 private slots:
     void on_pushButtonFile_clicked();
 
@@ -47,6 +49,8 @@ private:
     QTcpSocket *tcpSocket;
 
     QTimer timer;
+
+
 };
 
 #endif // CHATWINDOW_H

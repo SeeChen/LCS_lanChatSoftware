@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QLabel>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -105,6 +106,27 @@ void MainWindow::showTable()
     ui->tableView->setModel(model);
 
     model->select();
+}
+
+bool MainWindow::loadThemeFile(QString str)
+{
+    QFile *lobConfigFile = new QFile(str);
+    if(!lobConfigFile->open(QFile::ReadOnly)){
+
+        return false;
+    }
+
+    QFile style(str);
+
+    if(style.exists() && style.open(QFile::ReadOnly)) {
+        QString styleContents = QLatin1String(style.readAll());
+        style.close();
+        this->setStyleSheet(styleContents);
+    }
+
+    lobConfigFile->close();
+
+    return true;
 }
 
 void MainWindow::on_pushButtonAdd_clicked()
@@ -221,9 +243,32 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
     ui->pushButtonDelete->setEnabled(true);
     //想要获取其id并且删除他，可点击任意值在该行
-    qDebug()<<index.sibling(index.row(),0).data().toInt();
     selectedIdFromTable = index.sibling(index.row(),0).data().toInt();
 }
 
 
 
+//点击按钮切换UI（暗/亮）
+void MainWindow::on_pushButtonUiMode_clicked()
+{
+    //暂时用着一些老师给的qsFILE
+
+    //需要传给chat page(这个比较重要)
+    //添加双击
+    QString gsThemePath = QFileDialog::getOpenFileName(this, tr("Open Theme file"), "", tr("Qt StyleSheet Files (*.qss);;Text files (*.txt);;All files (*.*)"));
+    qDebug()<<gsThemePath;
+
+    //这边！
+    cw.loadThemeFile(gsThemePath);
+
+    loadThemeFile(gsThemePath);
+}
+
+//进入聊天页面
+void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    doubleClickedIdFromTable = index.sibling(index.row(),0).data().toInt();
+
+    cw.show();
+
+}

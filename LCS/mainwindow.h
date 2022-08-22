@@ -14,6 +14,7 @@
 #include <QSqlQuery>
 #include <QSqlTableModel>
 #include "userdatabase.h"
+#include "chatwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,16 +39,26 @@ private slots:
 
     void on_tableView_clicked(const QModelIndex &index);
 
+    void on_pushButtonUiMode_clicked();
+
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
 
     int selectedId;
     QString selectedName;
+
     int selectedIdFromTable = NULL;
+    int doubleClickedIdFromTable =NULL;
 
     QSqlTableModel *model;
 
     void createTable();
     void showTable();
+
+    bool loadThemeFile(QString);
+
+    chatWindow cw;
 };
 #endif // MAINWINDOW_H
