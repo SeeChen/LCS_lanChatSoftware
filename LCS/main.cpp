@@ -1,5 +1,8 @@
 #include "launchpage.h"
 
+//delete
+
+
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -18,5 +21,11 @@ int main(int argc, char *argv[])
     launchPage.setWindowTitle("Input Server IP Address");
 
     launchPage.show();
+
+    //delete code below after adding
+
+
     return a.exec();
+
+
 }
