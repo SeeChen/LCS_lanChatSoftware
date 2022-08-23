@@ -4,21 +4,18 @@
 #include <QMessageBox>
 #include <QRegExpValidator>
 #include <QCryptographicHash>
+#include <QFile>
 
 Register::Register(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Register)
 {
     ui->setupUi(this);
-<<<<<<< HEAD
-    this->setWindowTitle("注册页面");
-=======
 
     this->setWindowTitle("注册页面");
 
     this->loadThemeFile(":/QSS/Dark.qss");
 
->>>>>>> 31fb73e13082fe17e2cd2ae2f983bf1e35a2326b
     ui->lineEdit_UserName->setPlaceholderText("请输入用户名");
     ui->lineEdit_Password->setPlaceholderText("请输入密码");
     ui->lineEdit_Password->setEchoMode(QLineEdit::Password);
@@ -90,4 +87,25 @@ void Register::on_btn_Register_clicked()
 void Register::on_btn_Back_clicked()
 {
     emit registerClose();
+}
+
+bool Register::loadThemeFile(QString str)
+{
+    QFile *lobConfigFile = new QFile(str);
+    if(!lobConfigFile->open(QFile::ReadOnly)){
+
+        return false;
+    }
+
+    QFile style(str);
+
+    if(style.exists() && style.open(QFile::ReadOnly)) {
+        QString styleContents = QLatin1String(style.readAll());
+        style.close();
+        this->setStyleSheet(styleContents);
+    }
+
+    lobConfigFile->close();
+
+    return true;
 }
