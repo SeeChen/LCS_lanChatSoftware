@@ -26,14 +26,14 @@
    <item>
     <widget class="QPushButton" name="btn_Register">
      <property name="text">
-      <string>注册</string>
+      <string>注册并登录</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="btn_Back">
      <property name="text">
-      <string>返回</string>
+      <string>返回登录页面</string>
      </property>
     </widget>
    </item>

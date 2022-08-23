@@ -10,10 +10,12 @@ Register::Register(QWidget *parent) :
     ui(new Ui::Register)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle("注册页面");
     ui->lineEdit_UserName->setPlaceholderText("请输入用户名");
     ui->lineEdit_Password->setPlaceholderText("请输入密码");
+    ui->lineEdit_Password->setEchoMode(QLineEdit::Password);
     ui->lineEdit_Configm->setPlaceholderText("再一次输入密码");
+    ui->lineEdit_Configm->setEchoMode(QLineEdit::Password);
 
     ui->lineEdit_UserName->setValidator(new QRegExpValidator(QRegExp("[0-9a-zA-Z]*"), ui->lineEdit_UserName));
 }
@@ -34,6 +36,7 @@ void Register::on_btn_Register_clicked()
     QString usrName = ui->lineEdit_UserName->text();
 
     QString password1 = ui->lineEdit_Password->text();
+
     QString password2 = ui->lineEdit_Configm->text();
 
     // 判断是否有空数值
