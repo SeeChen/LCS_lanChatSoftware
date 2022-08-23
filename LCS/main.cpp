@@ -15,5 +15,7 @@ int main(int argc, char *argv[])
 
     launchPage.show();
 
+    launchPage.mainPage.show();
+
     return a.exec();
 }

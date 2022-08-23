@@ -29,7 +29,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButtonAdd_clicked();
 
     void on_pushButtonDelete_clicked();
 
@@ -42,6 +41,8 @@ private slots:
     void on_pushButtonUiMode_clicked();
 
     void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_lineEditAddId_returnPressed();
 
 private:
     Ui::MainWindow *ui;
@@ -58,6 +59,10 @@ private:
     void showTable();
 
     bool loadThemeFile(QString);
+
+    QString isMode = "light";
+    QIcon *light = new QIcon(QPixmap(":/image/sun-svgrepo-com.svg"));
+    QIcon *dark = new QIcon(QPixmap(":/image/moon-svgrepo-com.svg"));
 
     chatWindow cw;
 };

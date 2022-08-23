@@ -5,7 +5,8 @@
 #include <QPainterPath>
 #include <QDebug>
 #include <QLabel>
-
+#include <QPixmap>
+#include <QIcon>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,36 +21,38 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEditSearch->setPlaceholderText("搜索");
 
     //设置圆形用户图片
-    QPixmap target = QPixmap(size());
-    target.fill(Qt::transparent);
+//    QPixmap target = QPixmap(size());
+//    target.fill(Qt::transparent);
 
-    QPixmap p;
-    p.load(":/image/defaultuser.jpg");
-    p.scaled(10,10,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+//    QPixmap p;
+//    p.load(":/image/defaultuser.jpg");
+//    p.scaled(10,10,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
-    QPainter painter(&target);
-    painter.setRenderHint(QPainter::Antialiasing,true);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing,true);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
+//    QPainter painter(&target);
+//    painter.setRenderHint(QPainter::Antialiasing,true);
+//    painter.setRenderHint(QPainter::HighQualityAntialiasing,true);
+//    painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
 
-    int x = ui->labelPic->x();
-    int y = ui->labelPic->y();
-    int w = ui->labelPic->width();
-    int h = ui->labelPic->height();
-    qDebug() << x << " " << y << w;
-    int radius = 30 ;
-    int increment = 360;
+//    int x = ui->labelPic->x();
+//    int y = ui->labelPic->y();
+//    int w = ui->labelPic->width();
+//    int h = ui->labelPic->height();
+//    qDebug() << x << " " << y << w;
+//    int radius = 30 ;
+//    int increment = 360;
 
-    QPainterPath path = QPainterPath();
-    path.addRoundedRect(0,y+increment,radius*2,radius*2,radius,radius);
-    painter.setClipPath(path);
-    painter.drawPixmap(0,y+increment,radius*2,radius*2,p);
-    ui->labelPic->setPixmap(target);
-    this->update();
+//    QPainterPath path = QPainterPath();
+//    path.addRoundedRect(0,y+increment,radius*2,radius*2,radius,radius);
+//    painter.setClipPath(path);
+//    painter.drawPixmap(0,y+increment,radius*2,radius*2,p);
+//    ui->labelPic->setPixmap(target);
+//    this->update();
 
 
     //移入代码by:誉航
     ui->pushButtonDelete->setEnabled(false);
+    QIcon *icon = new QIcon(QPixmap(":/image/sun-svgrepo-com.svg"));
+    ui->pushButtonUiMode->setIcon(*icon);
 
     createTable();
     showTable();
@@ -104,6 +107,10 @@ void MainWindow::showTable()
     model->setTable("user");
 
     ui->tableView->setModel(model);
+    ui->tableView->setGridStyle(Qt::SolidLine);
+    ui->tableView->setColumnWidth(0,170);
+    ui->tableView->setColumnWidth(1,206);
+
 
     model->select();
 }
@@ -129,19 +136,6 @@ bool MainWindow::loadThemeFile(QString str)
     return true;
 }
 
-void MainWindow::on_pushButtonAdd_clicked()
-{
-    int id = ui->lineEditAddId->text().toInt();
-    QSqlRecord record = model->record();
-    record.setValue(0,id);
-    record.setValue(1,"添加名字");
-
-    int row = model->rowCount();
-    model->insertRecord(row,record);
-
-    ui->lineEditAddId->clear();
-
-}
 
 void MainWindow::on_pushButtonDelete_clicked()
 {
@@ -251,24 +245,58 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 //点击按钮切换UI（暗/亮）
 void MainWindow::on_pushButtonUiMode_clicked()
 {
-    //暂时用着一些老师给的qsFILE
-
     //需要传给chat page(这个比较重要)
-    //添加双击
     QString gsThemePath = QFileDialog::getOpenFileName(this, tr("Open Theme file"), "", tr("Qt StyleSheet Files (*.qss);;Text files (*.txt);;All files (*.*)"));
     qDebug()<<gsThemePath;
 
-    //这边！
-    cw.loadThemeFile(gsThemePath);
+    if(isMode == "light"){
+        ui->pushButtonUiMode->setIcon(*dark);
+        //这边！
+        cw.loadThemeFile(gsThemePath);
 
-    loadThemeFile(gsThemePath);
+        loadThemeFile(gsThemePath);
+        isMode = "dark";
+    }else{
+        ui->pushButtonUiMode->setIcon(*light);
+        //这边！
+        cw.loadThemeFile(gsThemePath);
+
+        loadThemeFile(gsThemePath);
+        isMode = "light";
+    }
+
+
 }
 
 //进入聊天页面
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
 {
     doubleClickedIdFromTable = index.sibling(index.row(),0).data().toInt();
-
     cw.show();
 
+}
+
+void MainWindow::on_lineEditAddId_returnPressed()
+{
+    int value = QMessageBox::question(this,"警告","添加好友？",QMessageBox::Yes,QMessageBox::No);
+    int id = ui->lineEditAddId->text().toInt();
+    QSqlRecord record;
+    int row;
+
+    switch(value){
+    case QMessageBox::Yes:
+
+        record = model->record();
+        record.setValue(0,id);
+        record.setValue(1,"请给该朋友添加名字");
+
+        row = model->rowCount();
+        model->insertRecord(row,record);
+
+        ui->lineEditAddId->clear();
+        break;
+    case QMessageBox::No:
+        ui->lineEditAddId->clear();
+        break;
+    }
 }
