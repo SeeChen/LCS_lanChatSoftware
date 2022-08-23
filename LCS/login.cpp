@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QCryptographicHash>
 #include <QRegExpValidator>
-#include <QFile>
 
 #include <QMessageBox>
 
@@ -14,12 +13,10 @@ logIn::logIn(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::logIn)
 {
-
     ui->setupUi(this);
     this->setWindowTitle("登录页面");
     QFont v ("Simsun",10);
     this->setFont(v);
-    this->loadThemeFile(":/QSS/Dark.qss");
 
     /*UI界面设置*/
     // 设置圆形用户图片
@@ -126,25 +123,3 @@ void logIn::on_pushButtonRegister_clicked()
 {
     emit registerOpen();
 }
-
-bool logIn::loadThemeFile(QString str)
-{
-    QFile *lobConfigFile = new QFile(str);
-    if(!lobConfigFile->open(QFile::ReadOnly)){
-
-        return false;
-    }
-
-    QFile style(str);
-
-    if(style.exists() && style.open(QFile::ReadOnly)) {
-        QString styleContents = QLatin1String(style.readAll());
-        style.close();
-        this->setStyleSheet(styleContents);
-    }
-
-    lobConfigFile->close();
-
-    return true;
-}
-
