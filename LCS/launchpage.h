@@ -10,6 +10,9 @@
 
 #include <QTcpSocket>
 
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
 namespace Ui {
 class LaunchPage;
 }
@@ -26,6 +29,9 @@ public:
 
     int     UID   = 0;
     QString UNAME = "";
+
+    QSqlDatabase db      = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlQuery    dbQuery;
 
     logIn      loginPage;
     Register   registerPage;

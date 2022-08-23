@@ -5,6 +5,8 @@
 
 #include <QRegExpValidator>
 
+#include <QSqlError>
+
 LaunchPage::LaunchPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LaunchPage)
@@ -58,21 +60,21 @@ LaunchPage::LaunchPage(QWidget *parent) :
     });
 
     // 与 Login 界面进行通信
-    connect(&loginPage, &logIn::requestLogin,      this,       &LaunchPage::requestLogin);
+    connect(&loginPage, &logIn::requestLogin      , this      , &LaunchPage::requestLogin);
     connect(this      , &LaunchPage::responseLogin, &loginPage, &logIn::responseLogin);
 
     // 打开注册页面
     connect(&loginPage, &logIn::registerOpen, this, &LaunchPage::registerOpen);
 
     // 与注册页面进行通信
-    connect(&registerPage, &Register::requestRegister,    this,          &LaunchPage::requestRegister);
-    connect(&registerPage, &Register::registerClose  ,    this,          &LaunchPage::registerClose);
-    connect(this,          &LaunchPage::responseReigster, &registerPage, &Register::responseRegister);
+    connect(&registerPage, &Register::requestRegister   , this         , &LaunchPage::requestRegister);
+    connect(&registerPage, &Register::registerClose     , this         , &LaunchPage::registerClose);
+    connect(this         , &LaunchPage::responseReigster, &registerPage, &Register::responseRegister);
 
     // 与在线列表进行通信
-    connect(this,      &LaunchPage::responseOnlineList, &mainPage, &MainWindow::responseOnlineList);
-    connect(&mainPage, &MainWindow::requestChat,        this,      &LaunchPage::requestChat);
-    connect(&mainPage, &MainWindow::sendUiLink,this, &LaunchPage::sendUiLink);
+    connect(this     , &LaunchPage::responseOnlineList, &mainPage, &MainWindow::responseOnlineList);
+    connect(&mainPage, &MainWindow::requestChat       , this     , &LaunchPage::requestChat);
+    connect(&mainPage, &MainWindow::sendUiLink        , this     , &LaunchPage::sendUiLink);
 
     // 与对话窗口进行通信
     connect(this     , &LaunchPage::responseChat   , &chatPage, &chatWindow::responseChat   );
@@ -106,6 +108,11 @@ void LaunchPage::responseVertify(QString data)
     UID   = strList.at(0).toInt();
     UNAME = strList.at(1);
 
+    db.setDatabaseName(QString("../%1.db").arg(UID));
+    if (!db.open()){
+        qDebug() << db.lastError().text();
+    }
+
     loginPage.close();
     registerPage.close();
 
@@ -123,6 +130,15 @@ void LaunchPage::responseMessage(QString data)
     int     msgFrom = dataList.at(0).toUInt();
     QString msg     = dataList.at(1);
     int     msgType = dataList.at(2).toUInt();
+
+    dbQuery.exec(QString("CREATE TABLE %1 (sender varchar(255), message varchar(255) );").arg(QString("User%1").arg(msgFrom)));
+    dbQuery.exec(QString("INSERT INTO %1 VALUES('opposite', '%2');").arg(QString("User%1").arg(msgFrom)).arg(msg));
+
+    dbQuery.exec(QString("SELECT * FROM User%1;").arg(msgFrom));
+
+    while(dbQuery.next()) {
+        qDebug() << dbQuery.value(0).toString() << " : " << dbQuery.value(1).toString();
+    }
 
     switch(msgType) {
         case messageType::TEXT:
@@ -171,6 +187,16 @@ void LaunchPage::sendUiLink(QString str)
 
 void LaunchPage::requestSendText(int targetID, QString msg, int type)
 {
+    if(targetID != UID){
+        dbQuery.exec(QString("CREATE TABLE %1 (sender varchar(255), message varchar(255) );").arg(QString("User%1").arg(targetID)));
+        dbQuery.exec(QString("INSERT INTO %1 VALUES('ME', '%2');").arg(QString("User%1").arg(targetID)).arg(msg));
+
+        dbQuery.exec(QString("SELECT * FROM User%1;").arg(targetID));
+    }
+
+    while(dbQuery.next()) {
+        qDebug() << dbQuery.value(0).toString() << " : " << dbQuery.value(1).toString();
+    }
 
     QString str = QString("LCS|%1|%2|%3").arg(UID).arg(todoAction::SENDMESSAGE).arg( QString("%1%%%2%%%3").arg(targetID).arg(msg).arg(type) );
 
