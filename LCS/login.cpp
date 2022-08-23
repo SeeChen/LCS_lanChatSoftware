@@ -147,3 +147,4 @@ bool logIn::loadThemeFile(QString str)
 
     return true;
 }
+

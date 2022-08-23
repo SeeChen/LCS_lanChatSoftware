@@ -166,6 +166,12 @@ void LCS_Server::on_LCSServer_newConnection()
                     onlineHash.remove(iter.key());
                 }
             }
+
+            QHashIterator<int, QTcpSocket*> iter2(socketHash);
+            while(iter2.hasNext()) {
+                iter2.next();
+                onlineList(iter2.key());
+            }
         });
 
         connect(newSocket, &QTcpSocket::readyRead,
@@ -232,6 +238,12 @@ void LCS_Server::on_LCSServer_newConnection()
                 dbQuery.next();
                 QString newOnline = dbQuery.value(2).toString();
                 onlineHash.insert(UID, newOnline);
+
+                QHashIterator<int, QTcpSocket*> iter(socketHash);
+                while(iter.hasNext()) {
+                    iter.next();
+                    onlineList(iter.key());
+                }
             }
 
             // 判断用户操作
