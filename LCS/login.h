@@ -35,6 +35,8 @@ private slots:
 
     void on_pushButtonRegister_clicked();
 
+    bool loadThemeFile(QString);
+
 signals:
     void requestLogin(QString, QString);
 

@@ -30,6 +30,8 @@ signals:
     void requestRegister(QString, QString);
 
     void registerClose();
+
+    bool loadThemeFile(QString);
 };
 
 #endif // REGISTER_H

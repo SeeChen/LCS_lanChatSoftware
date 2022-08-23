@@ -43,6 +43,7 @@ public slots:
     void registerClose();
 
     void requestChat(int, QString);
+    void sendUiLink(QString);
 
     void requestSendText(int, QString, int);
 

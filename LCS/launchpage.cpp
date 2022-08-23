@@ -71,6 +71,7 @@ LaunchPage::LaunchPage(QWidget *parent) :
     // 与在线列表进行通信
     connect(this,      &LaunchPage::responseOnlineList, &mainPage, &MainWindow::responseOnlineList);
     connect(&mainPage, &MainWindow::requestChat,        this,      &LaunchPage::requestChat);
+    connect(&mainPage, &MainWindow::sendUiLink,this, &LaunchPage::sendUiLink);
 
     // 与对话窗口进行通信
     connect(this,      &LaunchPage::responseChat,    &chatPage, &chatWindow::responseChat);
@@ -144,6 +145,11 @@ void LaunchPage::requestChat(int toID, QString toUsr)
     chatPage.setWindowTitle(toUsr);
 
     emit responseChat(toID, toUsr);
+}
+
+void LaunchPage::sendUiLink(QString str)
+{
+    chatPage.loadThemeFile(str);
 }
 
 void LaunchPage::requestSendText(int targetID, QString msg, int type)

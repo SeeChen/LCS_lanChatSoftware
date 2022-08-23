@@ -212,16 +212,14 @@ void MainWindow::on_pushButtonUiMode_clicked()
 
         ui->pushButtonUiMode->setIcon(*dark);
         //这边！
-        cw.loadThemeFile(gsThemePath);
-
+        emit sendUiLink(gsThemePath);
         loadThemeFile(gsThemePath);
         isMode = "dark";
     }else{
         gsThemePath = QString(":/QSS/Light.qss");
         ui->pushButtonUiMode->setIcon(*light);
         //这边！
-        cw.loadThemeFile(gsThemePath);
-
+        emit sendUiLink(gsThemePath);
         loadThemeFile(gsThemePath);
         isMode = "light";
     }
