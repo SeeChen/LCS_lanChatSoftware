@@ -66,5 +66,6 @@ public slots:
 
 signals:
     void requestChat(int, QString);
+    void sendUiLink(QString);
 };
 #endif // MAINWINDOW_H

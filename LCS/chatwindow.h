@@ -43,7 +43,7 @@ private slots:
 
     void on_pushButtonSend_clicked();
 
-    void on_pushButtonConnect_clicked();
+    //void on_pushButtonConnect_clicked();
 
 private:
     Ui::chatWindow *ui;
