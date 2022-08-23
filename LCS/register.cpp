@@ -11,12 +11,11 @@ Register::Register(QWidget *parent) :
     ui(new Ui::Register)
 {
     ui->setupUi(this);
-<<<<<<< HEAD
+
     this->setWindowTitle("注册页面");
-=======
+
     this->loadThemeFile(":/QSS/Dark.qss");
 
->>>>>>> 4426cd905c2270f9c9c166da343fc6928fb89b19
     ui->lineEdit_UserName->setPlaceholderText("请输入用户名");
     ui->lineEdit_Password->setPlaceholderText("请输入密码");
     ui->lineEdit_Password->setEchoMode(QLineEdit::Password);
