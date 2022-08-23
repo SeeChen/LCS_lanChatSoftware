@@ -65,6 +65,8 @@ private:
 public slots:
     void responseChat(int, QString);
 
+    void incomingMsg(int, QString);
+
 signals:
     void requsetSendText(int, QString, int);
 

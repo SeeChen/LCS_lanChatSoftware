@@ -16,6 +16,9 @@ chatWindow::chatWindow(QWidget *parent) :
 
     ui->labelFileStatus->setText("");
 
+    ui->labelChatting->setAlignment(Qt::AlignTop);
+    ui->labelChatting->setWordWrap(true);
+
     isStart= true;
 
 //    connect(tcpSocket,&QTcpSocket::connected,[=](){
@@ -157,6 +160,9 @@ void chatWindow::on_pushButtonSend_clicked()
     switch(msgType) {
         case messageType::TEXT:
             QString msg = ui->textEdit->toPlainText();
+
+            if(!ui->label_User->text().startsWith("ME"))
+                ui->labelChatting->setText(ui->labelChatting->text() + "\nME : " + msg);
             ui->textEdit->clear();
             emit requsetSendText(currentID, msg, msgType);
             break;
@@ -189,4 +195,13 @@ void chatWindow::responseChat(int oppoID, QString oppoUsr)
 
     ui->label_ID->setText(QString("%1").arg(oppoID));
     ui->label_User->setText(QString(oppoUsr));
+}
+
+void chatWindow::incomingMsg(int oppoID, QString msg)
+{
+    if(currentID == oppoID) {
+        QString hisChat = ui->labelChatting->text();
+        QString showMsg = QString("%1\n%2 : %3").arg(hisChat).arg(ui->label_User->text()).arg(msg);
+        ui->labelChatting->setText(showMsg);
+    }
 }

@@ -34,6 +34,7 @@ public:
 
     void responseError(QString);
     void responseVertify(QString);
+    void responseMessage(QString);
 
 public slots:
     void requestLogin(QString, QString);    // 请求登录
@@ -60,6 +61,8 @@ signals:
     void responseOnlineList(QString, int);
 
     void responseChat(int, QString);
+
+    void incomingMsg(int, QString);
 };
 
 #endif // LAUNCHPAGE_H

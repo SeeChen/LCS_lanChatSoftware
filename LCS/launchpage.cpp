@@ -46,6 +46,7 @@ LaunchPage::LaunchPage(QWidget *parent) :
                 responseError(serverMsg);
                 break;
             case serverAction::MESSAGE:
+                responseMessage(serverMsg);
                 break;
             case serverAction::VERIFIED:
                 responseVertify(serverMsg);
@@ -74,8 +75,9 @@ LaunchPage::LaunchPage(QWidget *parent) :
     connect(&mainPage, &MainWindow::sendUiLink,this, &LaunchPage::sendUiLink);
 
     // 与对话窗口进行通信
-    connect(this,      &LaunchPage::responseChat,    &chatPage, &chatWindow::responseChat);
-    connect(&chatPage, &chatWindow::requsetSendText, this,      &LaunchPage::requestSendText);
+    connect(this     , &LaunchPage::responseChat   , &chatPage, &chatWindow::responseChat   );
+    connect(&chatPage, &chatWindow::requsetSendText, this     , &LaunchPage::requestSendText);
+    connect(this     , &LaunchPage::incomingMsg    , &chatPage, &chatWindow::incomingMsg    );
 }
 
 LaunchPage::~LaunchPage()
@@ -112,6 +114,21 @@ void LaunchPage::responseVertify(QString data)
 
     QString onlineList = QString("LCS|%1|%2|").arg(UID).arg(todoAction::ONLINELIST);
     clientSocket->write(onlineList.toUtf8());
+}
+
+void LaunchPage::responseMessage(QString data)
+{
+    QStringList dataList = data.split("%%");
+
+    int     msgFrom = dataList.at(0).toUInt();
+    QString msg     = dataList.at(1);
+    int     msgType = dataList.at(2).toUInt();
+
+    switch(msgType) {
+        case messageType::TEXT:
+            emit incomingMsg(msgFrom, msg);
+            break;
+    }
 }
 
 void LaunchPage::requestLogin(QString UsrName, QString UsrPwrd)
