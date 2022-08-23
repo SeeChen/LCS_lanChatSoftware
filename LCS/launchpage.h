@@ -42,6 +42,8 @@ public slots:
     void registerOpen();
     void registerClose();
 
+    void requestChat(int, QString);
+
 private slots:
     void on_btn_Connect_clicked();
 
@@ -51,6 +53,8 @@ private:
 signals:
     void responseLogin();
     void responseReigster();
+
+    void responseOnlineList(QString, int);
 };
 
 #endif // LAUNCHPAGE_H

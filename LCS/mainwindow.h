@@ -51,12 +51,6 @@ private:
     QString selectedName;
 
     int selectedIdFromTable = NULL;
-    int doubleClickedIdFromTable =NULL;
-
-    QSqlTableModel *model;
-
-    void createTable();
-    void showTable();
 
     bool loadThemeFile(QString);
 
@@ -65,5 +59,12 @@ private:
     QIcon *dark = new QIcon(QPixmap(":/image/moon-svgrepo-com.svg"));
 
     chatWindow cw;
+    QSqlTableModel *model;
+
+public slots:
+    void responseOnlineList(QString, int);
+
+signals:
+    void requestChat(int, QString);
 };
 #endif // MAINWINDOW_H

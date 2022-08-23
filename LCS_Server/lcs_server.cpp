@@ -142,7 +142,8 @@ void LCS_Server::onlineList(int UID)
         onlineUser = onlineUser + QString("%1:%2%%").arg(iter.key()).arg(iter.value());
     }
 
-    socketHash.find(UID).value()->write(onlineUser.toUtf8());
+    QString returnOnline = QString("LCS|%1|%2").arg(serverAction::ONLINEUSER).arg(onlineUser);
+    socketHash.find(UID).value()->write(returnOnline.toUtf8());
 }
 
 void LCS_Server::on_LCSServer_newConnection()

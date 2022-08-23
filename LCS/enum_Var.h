@@ -13,7 +13,8 @@ enum todoAction {
 enum serverAction {
     ERROR,
     MESSAGE,
-    VERIFIED
+    VERIFIED,
+    ONLINEUSER
 };
 
 enum messageType {

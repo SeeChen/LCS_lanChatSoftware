@@ -8,6 +8,8 @@
 #include <QPixmap>
 #include <QIcon>
 
+#include <QStandardItemModel>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -20,99 +22,15 @@ MainWindow::MainWindow(QWidget *parent)
     //UI界面设置
     ui->lineEditSearch->setPlaceholderText("搜索");
 
-    //设置圆形用户图片
-//    QPixmap target = QPixmap(size());
-//    target.fill(Qt::transparent);
-
-//    QPixmap p;
-//    p.load(":/image/defaultuser.jpg");
-//    p.scaled(10,10,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-
-//    QPainter painter(&target);
-//    painter.setRenderHint(QPainter::Antialiasing,true);
-//    painter.setRenderHint(QPainter::HighQualityAntialiasing,true);
-//    painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
-
-//    int x = ui->labelPic->x();
-//    int y = ui->labelPic->y();
-//    int w = ui->labelPic->width();
-//    int h = ui->labelPic->height();
-//    qDebug() << x << " " << y << w;
-//    int radius = 30 ;
-//    int increment = 360;
-
-//    QPainterPath path = QPainterPath();
-//    path.addRoundedRect(0,y+increment,radius*2,radius*2,radius,radius);
-//    painter.setClipPath(path);
-//    painter.drawPixmap(0,y+increment,radius*2,radius*2,p);
-//    ui->labelPic->setPixmap(target);
-//    this->update();
-
-
     //移入代码by:誉航
     ui->pushButtonDelete->setEnabled(false);
     QIcon *icon = new QIcon(QPixmap(":/image/sun-svgrepo-com.svg"));
     ui->pushButtonUiMode->setIcon(*icon);
-
-    createTable();
-    showTable();
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::createTable()
-{
-    userDataBase dataBaseAtMainWindow;
-
-    //这里的db需要从db类获取（未实现）
-    int opened = dataBaseAtMainWindow.connectDataBase();
-
-    if(false == opened)
-    {
-        QMessageBox::warning(this,"打开数据库错误","打不开数据库");
-        return;
-    }
-
-    QSqlQuery query;
-
-    //这里需要依据user(id)来制造表格（可能可以在register时就弄出来）（未实现）
-    query.exec("create table user(id int primary key, name varchar(25));");
-
-    //（未实现）
-    query.exec("insert into user(id, name) values (1,'朋友1');");
-
-    //批量
-    query.prepare("insert into user(id,name) values(?,?)");
-
-    //example
-    QVariantList nameList;
-    nameList << "朋友2"<<"朋友3"<<"朋友4"<<"朋友5";
-    QVariantList idList;
-    idList << 2 << 3 << 4 << 5;
-
-    query.addBindValue(idList);
-    query.addBindValue(nameList);
-    //将上述都处理
-    query.execBatch();
-}
-
-void MainWindow::showTable()
-{
-    model = new QSqlTableModel(this);
-    //(未实现)
-    model->setTable("user");
-
-    ui->tableView->setModel(model);
-    ui->tableView->setGridStyle(Qt::SolidLine);
-    ui->tableView->setColumnWidth(0,170);
-    ui->tableView->setColumnWidth(1,206);
-
-
-    model->select();
 }
 
 bool MainWindow::loadThemeFile(QString str)
@@ -134,6 +52,47 @@ bool MainWindow::loadThemeFile(QString str)
     lobConfigFile->close();
 
     return true;
+}
+
+void MainWindow::responseOnlineList(QString data, int UID)
+{
+    QStringList userList = data.split("%%");
+
+    QStandardItemModel *standModel = new QStandardItemModel;
+
+    standModel->setColumnCount(2);
+
+    ui->tableView->setModel(standModel);
+
+    standModel->setHeaderData(0, Qt::Horizontal, QString("UID"));
+    standModel->setHeaderData(1, Qt::Horizontal, QString("Username"));
+
+    for(int i = 0; i < userList.length() - 1; i++) {
+        QStringList tempList = userList.at(i).split(":");
+
+        if (tempList.at(0).toInt() == UID) {
+
+            standModel->setItem(i, 0, new QStandardItem(tempList.at(0)));
+            standModel->setItem(i, 1, new QStandardItem(QString("ME (%1)").arg(tempList.at(1))));
+        } else {
+
+            standModel->setItem(i, 0, new QStandardItem(tempList.at(0)));
+            standModel->setItem(i, 1, new QStandardItem(tempList.at(1)));
+        }
+
+        standModel->item(i, 0)->setTextAlignment(Qt::AlignCenter);
+        standModel->item(i, 1)->setTextAlignment(Qt::AlignCenter);
+    }
+
+
+
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->verticalHeader()->setVisible(false);
+    ui->tableView->horizontalHeader()->setVisible(false);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    ui->tableView->setColumnWidth(0,170);
+    ui->tableView->setColumnWidth(1,250);
 }
 
 
@@ -275,9 +234,10 @@ void MainWindow::on_pushButtonUiMode_clicked()
 //进入聊天页面
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    doubleClickedIdFromTable = index.sibling(index.row(),0).data().toInt();
-    cw.show();
+    int     toChatId  = index.sibling(index.row(), 0).data().toInt();
+    QString toChatUsr = index.sibling(index.row(), 1).data().toString();
 
+    emit requestChat(toChatId, toChatUsr);
 }
 
 void MainWindow::on_lineEditAddId_returnPressed()

@@ -50,6 +50,9 @@ LaunchPage::LaunchPage(QWidget *parent) :
             case serverAction::VERIFIED:
                 responseVertify(serverMsg);
                 break;
+            case serverAction::ONLINEUSER:
+                emit responseOnlineList(serverMsg, UID);
+                break;
         }
     });
 
@@ -64,6 +67,10 @@ LaunchPage::LaunchPage(QWidget *parent) :
     connect(&registerPage, &Register::requestRegister,    this,          &LaunchPage::requestRegister);
     connect(&registerPage, &Register::registerClose  ,    this,          &LaunchPage::registerClose);
     connect(this,          &LaunchPage::responseReigster, &registerPage, &Register::responseRegister);
+
+    // 与在线列表进行通信
+    connect(this,      &LaunchPage::responseOnlineList, &mainPage, &MainWindow::responseOnlineList);
+    connect(&mainPage, &MainWindow::requestChat,        this,      &LaunchPage::requestChat);
 }
 
 LaunchPage::~LaunchPage()
@@ -96,6 +103,10 @@ void LaunchPage::responseVertify(QString data)
     registerPage.close();
 
     mainPage.show();
+    mainPage.setWindowTitle(UNAME);
+
+    QString onlineList = QString("LCS|%1|%2|").arg(UID).arg(todoAction::ONLINELIST);
+    clientSocket->write(onlineList.toUtf8());
 }
 
 void LaunchPage::requestLogin(QString UsrName, QString UsrPwrd)
@@ -121,6 +132,12 @@ void LaunchPage::registerClose()
 {
     registerPage.close();
     loginPage.show();
+}
+
+void LaunchPage::requestChat(int toID, QString toUsr)
+{
+    chatPage.show();
+    chatPage.setWindowTitle(toUsr);
 }
 
 // Connect 点击事件
