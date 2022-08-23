@@ -6,12 +6,14 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QString>
-#include <QStackedWidget>
-#include <QImage>
+#include <QMessageBox>
 
 #include <QTimer>
 #include <QTcpSocket>
 #include <QTcpServer>
+
+#include <QStackedWidget>
+#include <QImage>
 
 namespace Ui {
 class chatWindow;
@@ -27,26 +29,33 @@ public:
 
     bool loadThemeFile(QString);
 
+    QTcpSocket *tcpSocket;
+
 private slots:
     void on_pushButtonFile_clicked();
 
     void on_pushButtonPic_clicked();
 
-    void on_pushButtonEmoji_clicked();
+    //void on_pushButtonEmoji_clicked();
 
     void on_pushButtonSend_clicked();
+
+    void on_pushButtonConnect_clicked();
 
 private:
     Ui::chatWindow *ui;
     QFile file; //文件对象
     QString fileName; //文件名字
     qint64 fileSize; //文件大小
+    qint64 recvSize; //已经接收文件的大小
     qint64 sendSize; //已经发送文件的大小
     QString fPath;// file path for videos and pictures
     QString textLog="";
     QString chatStr;
 
-    QTcpSocket *tcpSocket;
+
+
+    bool isStart;
 
     QTimer timer;
 
