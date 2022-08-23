@@ -37,8 +37,10 @@ public:
 
 public slots:
     void requestLogin(QString, QString);    // 请求登录
+    void requestRegister(QString, QString); // 请求注册
 
     void registerOpen();
+    void registerClose();
 
 private slots:
     void on_btn_Connect_clicked();
@@ -48,6 +50,7 @@ private:
 
 signals:
     void responseLogin();
+    void responseReigster();
 };
 
 #endif // LAUNCHPAGE_H
