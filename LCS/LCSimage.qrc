@@ -5,5 +5,10 @@
         <file>image/moon-svgrepo-com.svg</file>
         <file>image/profile-svgrepo-com.svg</file>
         <file>image/sun-svgrepo-com.svg</file>
+        <file>image/eyeclose.png</file>
+        <file>image/eyeopen.png</file>
+        <file>image/Password.ico</file>
+        <file>image/Username.png</file>
+        <file>image/defaultuser.jpg</file>
     </qresource>
 </RCC>

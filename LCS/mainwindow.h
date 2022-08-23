@@ -28,6 +28,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
+
 private slots:
 
     void on_pushButtonDelete_clicked();
@@ -44,6 +46,8 @@ private slots:
 
     void on_lineEditAddId_returnPressed();
 
+    bool loadThemeFile(QString);
+
 private:
     Ui::MainWindow *ui;
 
@@ -52,7 +56,7 @@ private:
 
     int selectedIdFromTable = NULL;
 
-    bool loadThemeFile(QString);
+
 
     QString isMode = "light";
     QIcon *light = new QIcon(QPixmap(":/image/sun-svgrepo-com.svg"));

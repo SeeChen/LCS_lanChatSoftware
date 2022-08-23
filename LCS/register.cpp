@@ -4,12 +4,14 @@
 #include <QMessageBox>
 #include <QRegExpValidator>
 #include <QCryptographicHash>
+#include <QFile>
 
 Register::Register(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Register)
 {
     ui->setupUi(this);
+    this->loadThemeFile(":/QSS/Dark.qss");
 
     ui->lineEdit_UserName->setPlaceholderText("请输入用户名");
     ui->lineEdit_Password->setPlaceholderText("请输入密码");
@@ -79,4 +81,25 @@ void Register::on_btn_Register_clicked()
 void Register::on_btn_Back_clicked()
 {
     emit registerClose();
+}
+
+bool Register::loadThemeFile(QString str)
+{
+    QFile *lobConfigFile = new QFile(str);
+    if(!lobConfigFile->open(QFile::ReadOnly)){
+
+        return false;
+    }
+
+    QFile style(str);
+
+    if(style.exists() && style.open(QFile::ReadOnly)) {
+        QString styleContents = QLatin1String(style.readAll());
+        style.close();
+        this->setStyleSheet(styleContents);
+    }
+
+    lobConfigFile->close();
+
+    return true;
 }
