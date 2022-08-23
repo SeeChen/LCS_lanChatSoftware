@@ -23,6 +23,8 @@ private slots:
 
     void on_btn_Register_clicked();
 
+    bool loadThemeFile(QString);
+
 private:
     Ui::Register *ui;
 
@@ -30,8 +32,6 @@ signals:
     void requestRegister(QString, QString);
 
     void registerClose();
-
-    bool loadThemeFile(QString);
 };
 
 #endif // REGISTER_H
