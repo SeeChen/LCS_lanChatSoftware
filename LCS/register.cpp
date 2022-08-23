@@ -13,8 +13,14 @@ Register::Register(QWidget *parent) :
     ui->setupUi(this);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     this->setWindowTitle("注册页面");
 =======
+=======
+
+    this->setWindowTitle("注册页面");
+
+>>>>>>> 31fb73e13082fe17e2cd2ae2f983bf1e35a2326b
 =======
 
     this->setWindowTitle("注册页面");
