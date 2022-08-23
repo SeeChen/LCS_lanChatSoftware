@@ -71,6 +71,10 @@ LaunchPage::LaunchPage(QWidget *parent) :
     // 与在线列表进行通信
     connect(this,      &LaunchPage::responseOnlineList, &mainPage, &MainWindow::responseOnlineList);
     connect(&mainPage, &MainWindow::requestChat,        this,      &LaunchPage::requestChat);
+
+    // 与对话窗口进行通信
+    connect(this,      &LaunchPage::responseChat,    &chatPage, &chatWindow::responseChat);
+    connect(&chatPage, &chatWindow::requsetSendText, this,      &LaunchPage::requestSendText);
 }
 
 LaunchPage::~LaunchPage()
@@ -138,6 +142,16 @@ void LaunchPage::requestChat(int toID, QString toUsr)
 {
     chatPage.show();
     chatPage.setWindowTitle(toUsr);
+
+    emit responseChat(toID, toUsr);
+}
+
+void LaunchPage::requestSendText(int targetID, QString msg, int type)
+{
+
+    QString str = QString("LCS|%1|%2|%3").arg(UID).arg(todoAction::SENDMESSAGE).arg( QString("%1%%%2%%%3").arg(targetID).arg(msg).arg(type) );
+
+    clientSocket->write(str.toUtf8());
 }
 
 // Connect 点击事件

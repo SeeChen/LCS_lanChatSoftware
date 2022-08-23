@@ -127,7 +127,7 @@ void LCS_Server::sendMessage(QString data, int UID)
     QString message = dataList.at(1).toUtf8();
     int        type = dataList.at(2).toUInt();
 
-    QString msg = QString("%1%%%2%%%3").arg(UID).arg(message).arg(type);
+    QString msg = QString("LCS|%1|%2").arg(serverAction::MESSAGE).arg( QString("%1%%%2%%%3").arg(UID).arg(message).arg(type) );
 
     socketHash.find(targetID).value()->write(msg.toUtf8());
 }

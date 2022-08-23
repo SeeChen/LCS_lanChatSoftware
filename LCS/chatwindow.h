@@ -1,6 +1,8 @@
 #ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
+#include "enum_Var.h"
+
 #include <QWidget>
 #include <QDebug>
 #include <QFileDialog>
@@ -29,7 +31,8 @@ public:
 
     bool loadThemeFile(QString);
 
-    QTcpSocket *tcpSocket;
+    int currentID = 0;
+    int msgType   = messageType::TEXT;
 
 private slots:
     void on_pushButtonFile_clicked();
@@ -59,6 +62,11 @@ private:
 
     QTimer timer;
 
+public slots:
+    void responseChat(int, QString);
+
+signals:
+    void requsetSendText(int, QString, int);
 
 };
 

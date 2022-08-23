@@ -33,37 +33,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="labelUser">
+      <widget class="QLabel" name="label_ID">
        <property name="text">
         <string>User Ip: </string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditIp">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="labelPort">
+      <widget class="QLabel" name="label_User">
        <property name="text">
         <string>Port: </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditPort">
-       <property name="text">
-        <string>8888</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButtonConnect">
-       <property name="text">
-        <string>Connect</string>
        </property>
       </widget>
      </item>

@@ -154,42 +154,13 @@ void chatWindow::on_pushButtonPic_clicked()
 
 void chatWindow::on_pushButtonSend_clicked()
 {
-    //先发送文件头信息  文件名##文件大小
-    QString head = QString("%1##%2").arg(fileName).arg(fileSize);
-    //发送头部信息
-//    qint64 len = tcpSocket->write( head.toUtf8() );
-//    if(len > 0)//头部信息发送成功
-//    {
-//        //发送真正的文件信息
-//        //防止TCP黏包
-//        //需要通过定时器延时 20 ms
-//        timer.start(20);
-
-//    }
-//    else
-//    {
-//        qDebug() << "头部信息发送失败 142";
-//        file.close();
-//    }
-
-    //QImage p;
-    //p.load(":/image/defaultuser.jpg");
-    //p.scaled(10,10,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
-
-
-    chatStr = ui->textEdit->toPlainText();
-
-    if(chatStr == NULL){
-       return;
+    switch(msgType) {
+        case messageType::TEXT:
+            QString msg = ui->textEdit->toPlainText();
+            ui->textEdit->clear();
+            emit requsetSendText(currentID, msg, msgType);
+            break;
     }
-
-    textLog += "\n" + chatStr;
-    //ui->labelChatting->setTextFormat(Qt::AutoText);
-    //ui->labelUser->setText(str);
-    //ui->labelChatting->setWordWrap(true);
-    ui->labelChatting->setText(textLog);
-
-    ui->textEdit->clear();// 清空TextEdit
 }
 
 bool chatWindow::loadThemeFile(QString str){
@@ -212,15 +183,10 @@ bool chatWindow::loadThemeFile(QString str){
     return true;
 }
 
-void chatWindow::on_pushButtonConnect_clicked()
+void chatWindow::responseChat(int oppoID, QString oppoUsr)
 {
-//    //获取服务器的ip和端口
-//    QString ip = ui->lineEditIp->text();
-//    quint16 port = ui->lineEditPort->text().toInt();
+    currentID = oppoID;
 
-//    //主动和服务器连接
-//    tcpSocket->connectToHost(QHostAddress(ip), port);
-
-//    isStart = true;
-
+    ui->label_ID->setText(QString("%1").arg(oppoID));
+    ui->label_User->setText(QString(oppoUsr));
 }

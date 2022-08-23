@@ -44,6 +44,8 @@ public slots:
 
     void requestChat(int, QString);
 
+    void requestSendText(int, QString, int);
+
 private slots:
     void on_btn_Connect_clicked();
 
@@ -55,6 +57,8 @@ signals:
     void responseReigster();
 
     void responseOnlineList(QString, int);
+
+    void responseChat(int, QString);
 };
 
 #endif // LAUNCHPAGE_H
