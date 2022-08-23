@@ -59,6 +59,11 @@ LaunchPage::LaunchPage(QWidget *parent) :
 
     // 打开注册页面
     connect(&loginPage, &logIn::registerOpen, this, &LaunchPage::registerOpen);
+
+    // 与注册页面进行通信
+    connect(&registerPage, &Register::requestRegister,    this,          &LaunchPage::requestRegister);
+    connect(&registerPage, &Register::registerClose  ,    this,          &LaunchPage::registerClose);
+    connect(this,          &LaunchPage::responseReigster, &registerPage, &Register::responseRegister);
 }
 
 LaunchPage::~LaunchPage()
@@ -74,6 +79,9 @@ void LaunchPage::responseError(QString data)
         case todoAction::LOGIN:
             emit responseLogin();
             break;
+        case todoAction::REGISTER:
+            emit responseReigster();
+            break;
     }
 }
 
@@ -84,7 +92,10 @@ void LaunchPage::responseVertify(QString data)
     UID   = strList.at(0).toInt();
     UNAME = strList.at(1);
 
-    qDebug() << UID << " : " << UNAME;
+    loginPage.close();
+    registerPage.close();
+
+    mainPage.show();
 }
 
 void LaunchPage::requestLogin(QString UsrName, QString UsrPwrd)
@@ -94,10 +105,22 @@ void LaunchPage::requestLogin(QString UsrName, QString UsrPwrd)
     clientSocket->write(loginMsg.toUtf8());
 }
 
+void LaunchPage::requestRegister(QString username, QString password)
+{
+    QString registerMsg = QString("LCS|%1|%2|%3%%%4").arg(0).arg(todoAction::REGISTER).arg(username).arg(password);
+    clientSocket->write(registerMsg.toUtf8());
+}
+
 void LaunchPage::registerOpen()
 {
     loginPage.close();
     registerPage.show();
+}
+
+void LaunchPage::registerClose()
+{
+    registerPage.close();
+    loginPage.show();
 }
 
 // Connect 点击事件

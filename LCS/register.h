@@ -15,6 +15,9 @@ public:
     explicit Register(QWidget *parent = nullptr);
     ~Register();
 
+public slots:
+    void responseRegister();
+
 private slots:
     void on_btn_Back_clicked();
 
@@ -22,6 +25,11 @@ private slots:
 
 private:
     Ui::Register *ui;
+
+signals:
+    void requestRegister(QString, QString);
+
+    void registerClose();
 };
 
 #endif // REGISTER_H

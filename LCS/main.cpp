@@ -6,6 +6,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    /* DON'T add any code here !  Thank You!*/
+    /* If you want to see effect, please REMOVE the code you added before upload */
+    /* Thank you for your understanding */
+
     LaunchPage launchPage;
 
     launchPage.setMaximumSize(400, 100);
@@ -14,8 +18,5 @@ int main(int argc, char *argv[])
     launchPage.setWindowTitle("Input Server IP Address");
 
     launchPage.show();
-
-    launchPage.mainPage.show();
-
     return a.exec();
 }

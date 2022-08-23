@@ -8,10 +8,13 @@
         <file>image/eyeopen.png</file>
         <file>image/Password.ico</file>
         <file>image/Username.png</file>
+<<<<<<< HEAD
         <file>image/moon-svgrepo-com.svg</file>
         <file>image/sun-svgrepo-com.svg</file>
         <file>image/profile-svgrepo-com.svg</file>
         <file>QSS/Dark.qss</file>
         <file>QSS/Light.qss</file>
+=======
+>>>>>>> 7abe9fbe2170e20ee260acc72c2ad15d0e361a9c
     </qresource>
 </RCC>

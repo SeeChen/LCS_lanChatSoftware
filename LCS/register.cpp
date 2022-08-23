@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include <QRegExpValidator>
+#include <QCryptographicHash>
 
 Register::Register(QWidget *parent) :
     QWidget(parent),
@@ -20,6 +21,12 @@ Register::Register(QWidget *parent) :
 Register::~Register()
 {
     delete ui;
+}
+
+void Register::responseRegister()
+{
+    ui->lineEdit_UserName->clear();
+    QMessageBox::critical(this, "注册失败", "请尝试其它用户名", QMessageBox::Retry);
 }
 
 void Register::on_btn_Register_clicked()
@@ -43,18 +50,33 @@ void Register::on_btn_Register_clicked()
     if(password2 == "") {
         ui->lineEdit_Configm->setPlaceholderText("密码不能为空");
         ui->lineEdit_Configm->setStyleSheet("border: 2px solid red;");
+
+        return;
     }
 
     if(password1.length() < 8) {
         QMessageBox::warning(this, "注意", "密码必须大于八位", QMessageBox::Retry);
+
+        return;
     }
 
     if((password1 != password2) && (password1 != "") && (password2 != "") ) {
         QMessageBox::warning(this, "注意", "两次密码必须相同", QMessageBox::Retry);
+
+        return;
     }
+
+    // 加密密码
+    QString    md5Password;
+    QByteArray str;
+
+    str = QCryptographicHash::hash(password2.toLatin1(), QCryptographicHash::Md5);
+    md5Password.append(str.toHex());
+
+    emit requestRegister(usrName, md5Password);
 }
 
 void Register::on_btn_Back_clicked()
 {
-
+    emit registerClose();
 }
