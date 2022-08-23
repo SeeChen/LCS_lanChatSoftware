@@ -11,5 +11,7 @@
         <file>image/moon-svgrepo-com.svg</file>
         <file>image/sun-svgrepo-com.svg</file>
         <file>image/profile-svgrepo-com.svg</file>
+        <file>QSS/Dark.qss</file>
+        <file>QSS/Light.qss</file>
     </qresource>
 </RCC>

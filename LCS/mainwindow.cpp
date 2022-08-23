@@ -246,10 +246,11 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 void MainWindow::on_pushButtonUiMode_clicked()
 {
     //需要传给chat page(这个比较重要)
-    QString gsThemePath = QFileDialog::getOpenFileName(this, tr("Open Theme file"), "", tr("Qt StyleSheet Files (*.qss);;Text files (*.txt);;All files (*.*)"));
-    qDebug()<<gsThemePath;
+    QString gsThemePath;
 
     if(isMode == "light"){
+        gsThemePath = QString(":/QSS/Dark.qss");
+
         ui->pushButtonUiMode->setIcon(*dark);
         //这边！
         cw.loadThemeFile(gsThemePath);
@@ -257,6 +258,7 @@ void MainWindow::on_pushButtonUiMode_clicked()
         loadThemeFile(gsThemePath);
         isMode = "dark";
     }else{
+        gsThemePath = QString(":/QSS/Light.qss");
         ui->pushButtonUiMode->setIcon(*light);
         //这边！
         cw.loadThemeFile(gsThemePath);
@@ -264,6 +266,8 @@ void MainWindow::on_pushButtonUiMode_clicked()
         loadThemeFile(gsThemePath);
         isMode = "light";
     }
+
+    qDebug()<<isMode;
 
 
 }
