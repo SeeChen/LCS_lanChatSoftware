@@ -171,7 +171,6 @@ void chatWindow::historyChat(QString sender, QString msg)
 
 void chatWindow::on_pushButtonBold_clicked()
 {
-    QString str;
     textCursor = ui->textEdit->textCursor();
 
     if(textCursor.hasSelection()){
@@ -188,7 +187,7 @@ void chatWindow::on_pushButtonBold_clicked()
        }
        ui->textEdit->setTextCursor(textCursor);
     }
-    qDebug()<<str;
+    ui->textEdit->setFocus();
 }
 
 void chatWindow::on_pushButtonItalic_clicked()
@@ -209,6 +208,7 @@ void chatWindow::on_pushButtonItalic_clicked()
          }
      ui->textEdit->setTextCursor(textCursor);
     }
+    ui->textEdit->setFocus();
 }
 
 void chatWindow::on_pushButtonUnderline_clicked()
@@ -229,6 +229,7 @@ void chatWindow::on_pushButtonUnderline_clicked()
            }
        ui->textEdit->setTextCursor(textCursor);
        }
+      ui->textEdit->setFocus();
 }
 
 void chatWindow::on_pushButtonColor_clicked()
@@ -236,6 +237,6 @@ void chatWindow::on_pushButtonColor_clicked()
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose color");
     if(color.isValid()){
         ui->textEdit->setTextColor(color);
-
+        ui->textEdit->setFocus();
     }
 }
