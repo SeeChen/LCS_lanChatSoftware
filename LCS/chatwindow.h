@@ -43,11 +43,7 @@ private slots:
 
     void on_pushButtonPic_clicked();
 
-    //void on_pushButtonEmoji_clicked();
-
     void on_pushButtonSend_clicked();
-
-    //void on_pushButtonConnect_clicked();
 
     void on_pushButtonBold_clicked();
 
