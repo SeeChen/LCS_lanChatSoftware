@@ -19,7 +19,18 @@ chatWindow::chatWindow(QWidget *parent) :
     ui->labelChatting->setAlignment(Qt::AlignTop);
     ui->labelChatting->setWordWrap(true);
 
-    isStart= true;
+    const QIcon boldIcon(":/image/boldIcon.png");
+    ui->pushButtonBold->setText("");
+    ui->pushButtonBold->setIcon(boldIcon);
+
+    const QIcon underlineIcon(":/image/underlineIcon.png");
+    ui->pushButtonUnderline->setText("");
+    ui->pushButtonUnderline->setIcon(underlineIcon);
+
+    const QIcon italicIcon(":/image/italicIcon.png");
+    ui->pushButtonItalic->setText("");
+    ui->pushButtonItalic->setIcon(italicIcon);
+
 }
 
 chatWindow::~chatWindow()
@@ -160,6 +171,7 @@ void chatWindow::historyChat(QString sender, QString msg)
 
 void chatWindow::on_pushButtonBold_clicked()
 {
+    QString str;
     textCursor = ui->textEdit->textCursor();
 
     if(textCursor.hasSelection()){
@@ -176,6 +188,7 @@ void chatWindow::on_pushButtonBold_clicked()
        }
        ui->textEdit->setTextCursor(textCursor);
     }
+    qDebug()<<str;
 }
 
 void chatWindow::on_pushButtonItalic_clicked()
