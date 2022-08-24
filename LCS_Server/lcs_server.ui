@@ -16,7 +16,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QScrollArea" name="ConnectdDeviceList">
+  <widget class="QScrollArea" name="a">
    <property name="geometry">
     <rect>
      <x>19</x>
@@ -39,12 +39,12 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="z"/>
+      <layout class="QHBoxLayout" name="ConnectdDeviceList"/>
      </item>
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
