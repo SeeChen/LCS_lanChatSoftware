@@ -19,64 +19,18 @@ chatWindow::chatWindow(QWidget *parent) :
     ui->labelChatting->setAlignment(Qt::AlignTop);
     ui->labelChatting->setWordWrap(true);
 
-    isStart= true;
+    const QIcon boldIcon(":/image/boldIcon.png");
+    ui->pushButtonBold->setText("");
+    ui->pushButtonBold->setIcon(boldIcon);
 
-//    connect(tcpSocket,&QTcpSocket::connected,[=](){
-//       // show connection status bottom right
-//        ui->labelConnectionStatus->setText("Connected");
-//    });
-//    connect(tcpSocket,&QTcpSocket::readyRead,[=](){
-//       QByteArray buf = tcpSocket->readAll();
+    const QIcon underlineIcon(":/image/underlineIcon.png");
+    ui->pushButtonUnderline->setText("");
+    ui->pushButtonUnderline->setIcon(underlineIcon);
 
-//       if(isStart){
-//           isStart = false;
+    const QIcon italicIcon(":/image/italicIcon.png");
+    ui->pushButtonItalic->setText("");
+    ui->pushButtonItalic->setIcon(italicIcon);
 
-//           fileName = QString(buf).section("##",0,0);
-//           fileSize = QString(buf).section("##", 1, 1).toInt();
-//           recvSize = 0;
-//           //打开文件
-//           //关联文件名字
-//           file.setFileName(fileName);
-
-//           //只写方式打开文件
-//           bool isOk = file.open(QIODevice::WriteOnly);
-//           if(false == isOk)
-//           {
-//               qDebug() << "WriteOnly error 49";
-
-//               tcpSocket->disconnectFromHost(); //断开连接
-//               tcpSocket->close(); //关闭套接字
-
-//               return; //如果打开文件失败，中断函数
-//           }
-//           QString str = QString("接收的文件: [%1: %2kb]").arg(fileName).arg(fileSize/1024);
-//           QMessageBox::information(this, "文件信息", str);
-//           ui->labelFileStatus->setText(str);
-//           ui->labelFileStatus->setText("正在接收文件……");
-
-//       }
-//       else{
-//           qint64 len = file.write(buf);
-//           if(len >0) //接收数据大于0
-//           {
-//               recvSize += len; //累计接收大小
-//               qDebug() << len;
-//           }
-
-//           if(recvSize == fileSize) //文件接收完毕
-//           {
-//               //先给服务发送(接收文件完成的信息)
-//               tcpSocket->write("Done.");
-
-//               ui->textEdit->append("文件接收完成");
-//               QMessageBox::information(this, "完成", "文件接收完成");
-//               file.close(); //关闭文件
-//               //断开连接
-//               tcpSocket->disconnectFromHost();
-//               tcpSocket->close();
-//            }
-//       }
-//    });
 }
 
 chatWindow::~chatWindow()
@@ -204,6 +158,7 @@ void chatWindow::incomingMsg(int oppoID, QString msg)
     if(currentID == oppoID) {
         QString hisChat = ui->labelChatting->text();
         QString showMsg = QString("%1\n%2 : %3").arg(hisChat).arg(ui->label_User->text()).arg(msg);
+
         ui->labelChatting->setText(showMsg);
     }
 }
@@ -212,4 +167,76 @@ void chatWindow::historyChat(QString sender, QString msg)
 {
     QString befMsg = ui->labelChatting->text();
     ui->labelChatting->setText(QString("%1%2 : %3\n").arg(befMsg).arg(sender=="opposite"?(ui->label_User->text()):"ME").arg(msg));
+}
+
+void chatWindow::on_pushButtonBold_clicked()
+{
+    textCursor = ui->textEdit->textCursor();
+
+    if(textCursor.hasSelection()){
+        font = textCursor.charFormat().font();
+        if(!textCursor.charFormat().font().bold()){
+            font.setBold(true);
+            format.setFont(font);
+            textCursor.setCharFormat(format);
+        }
+        else{
+            font.setBold(false);
+            format.setFont(font);
+            textCursor.setCharFormat(format);
+       }
+       ui->textEdit->setTextCursor(textCursor);
+    }
+    ui->textEdit->setFocus();
+}
+
+void chatWindow::on_pushButtonItalic_clicked()
+{
+    textCursor = ui->textEdit->textCursor();
+
+    if(textCursor.hasSelection()){
+        font = textCursor.charFormat().font();
+        if(!textCursor.charFormat().font().italic()){
+            font.setItalic(true);
+            format.setFont(font);
+            textCursor.setCharFormat(format);
+         }
+         else{
+             font.setItalic(false);
+             format.setFont(font);
+             textCursor.setCharFormat(format);
+         }
+     ui->textEdit->setTextCursor(textCursor);
+    }
+    ui->textEdit->setFocus();
+}
+
+void chatWindow::on_pushButtonUnderline_clicked()
+{
+      textCursor = ui->textEdit->textCursor();
+
+      if(textCursor.hasSelection()){
+            font = textCursor.charFormat().font();
+          if(!textCursor.charFormat().font().underline()){
+                font.setUnderline(true);
+                format.setFont(font);
+                textCursor.setCharFormat(format);
+           }
+           else{
+                font.setUnderline(false);
+                format.setFont(font);
+                textCursor.setCharFormat(format);
+           }
+       ui->textEdit->setTextCursor(textCursor);
+       }
+      ui->textEdit->setFocus();
+}
+
+void chatWindow::on_pushButtonColor_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white,this,"Choose color");
+    if(color.isValid()){
+        ui->textEdit->setTextColor(color);
+        ui->textEdit->setFocus();
+    }
 }

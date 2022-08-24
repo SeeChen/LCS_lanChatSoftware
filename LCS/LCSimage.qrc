@@ -10,5 +10,8 @@
         <file>image/Password.ico</file>
         <file>image/Username.png</file>
         <file>image/defaultuser.jpg</file>
+        <file>image/boldIcon.png</file>
+        <file>image/italicIcon.png</file>
+        <file>image/underlineIcon.png</file>
     </qresource>
 </RCC>

@@ -13,9 +13,13 @@
 #include <QTimer>
 #include <QTcpSocket>
 #include <QTcpServer>
+#include <QTextCursor>
 
+#include <QTextCharFormat>
 #include <QStackedWidget>
 #include <QImage>
+#include <QColorDialog>
+#include <QColor>
 
 namespace Ui {
 class chatWindow;
@@ -39,11 +43,15 @@ private slots:
 
     void on_pushButtonPic_clicked();
 
-    //void on_pushButtonEmoji_clicked();
-
     void on_pushButtonSend_clicked();
 
-    //void on_pushButtonConnect_clicked();
+    void on_pushButtonBold_clicked();
+
+    void on_pushButtonItalic_clicked();
+
+    void on_pushButtonUnderline_clicked();
+
+    void on_pushButtonColor_clicked();
 
 private:
     Ui::chatWindow *ui;
@@ -56,6 +64,9 @@ private:
     QString textLog="";
     QString chatStr;
 
+    QTextCursor textCursor;
+    QFont font;
+    QTextCharFormat format;
 
 
     bool isStart;
