@@ -76,8 +76,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>683</width>
-          <height>1218</height>
+          <width>672</width>
+          <height>1222</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -179,7 +179,7 @@
      <item>
       <widget class="QLabel" name="labelConnectionStatus">
        <property name="text">
-        <string>Not connected</string>
+        <string>Connected</string>
        </property>
       </widget>
      </item>
