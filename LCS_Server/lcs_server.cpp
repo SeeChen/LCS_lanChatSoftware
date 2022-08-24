@@ -153,7 +153,7 @@ void LCS_Server::on_LCSServer_newConnection()
 
         QLabel *label = new QLabel();
         label->setText(newSocket->peerAddress().toString());
-        ui->ConnectdDeviceList->addWidget(label);
+        //ui->ConnectdDeviceList->addWidget(label);
 
         connect(newSocket, &QTcpSocket::disconnected,
                 [=]()
