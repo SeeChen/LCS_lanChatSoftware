@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>719</width>
+    <width>775</width>
     <height>525</height>
    </rect>
   </property>
@@ -76,7 +76,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>672</width>
+          <width>728</width>
           <height>1222</height>
          </rect>
         </property>
@@ -129,11 +129,39 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>318</width>
+         <width>68</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonBold">
+       <property name="text">
+        <string>Bold</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonItalic">
+       <property name="text">
+        <string>Italic</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonUnderline">
+       <property name="text">
+        <string>Underline</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonColor">
+       <property name="text">
+        <string>Color Font</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonSend">

@@ -21,6 +21,7 @@ chatWindow::chatWindow(QWidget *parent) :
 
     isStart= true;
 
+
 //    connect(tcpSocket,&QTcpSocket::connected,[=](){
 //       // show connection status bottom right
 //        ui->labelConnectionStatus->setText("Connected");
@@ -212,4 +213,76 @@ void chatWindow::historyChat(QString sender, QString msg)
 {
     QString befMsg = ui->labelChatting->text();
     ui->labelChatting->setText(QString("%1%2 : %3\n").arg(befMsg).arg(sender=="opposite"?(ui->label_User->text()):"ME").arg(msg));
+}
+
+void chatWindow::on_pushButtonBold_clicked()
+{
+    QString str ;
+    textCursor = ui->textEdit->textCursor();
+
+    if(textCursor.hasSelection()){
+        font = textCursor.charFormat().font();
+        if(!textCursor.charFormat().font().bold()){
+            font.setBold(true);
+            format.setFont(font);
+            textCursor.setCharFormat(format);
+        }
+        else{
+            font.setBold(false);
+            format.setFont(font);
+            textCursor.setCharFormat(format);
+       }
+       ui->textEdit->setTextCursor(textCursor);
+    }
+}
+
+void chatWindow::on_pushButtonItalic_clicked()
+{
+    QString str ;
+    textCursor = ui->textEdit->textCursor();
+
+    if(textCursor.hasSelection()){
+        font = textCursor.charFormat().font();
+        if(!textCursor.charFormat().font().italic()){
+            font.setItalic(true);
+            format.setFont(font);
+            textCursor.setCharFormat(format);
+         }
+         else{
+             font.setItalic(false);
+             format.setFont(font);
+             textCursor.setCharFormat(format);
+         }
+     ui->textEdit->setTextCursor(textCursor);
+    }
+}
+
+void chatWindow::on_pushButtonUnderline_clicked()
+{
+      QString str ;
+      textCursor = ui->textEdit->textCursor();
+
+      if(textCursor.hasSelection()){
+            font = textCursor.charFormat().font();
+          if(!textCursor.charFormat().font().underline()){
+                font.setUnderline(true);
+                format.setFont(font);
+                textCursor.setCharFormat(format);
+           }
+           else{
+                font.setUnderline(false);
+                format.setFont(font);
+                textCursor.setCharFormat(format);
+           }
+       ui->textEdit->setTextCursor(textCursor);
+       }
+}
+
+void chatWindow::on_pushButtonColor_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white,this,"Choose color");
+    if(color.isValid()){
+        ui->textEdit->setTextColor(color);
+
+    }
 }
