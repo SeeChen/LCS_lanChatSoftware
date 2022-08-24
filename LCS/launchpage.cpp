@@ -80,6 +80,7 @@ LaunchPage::LaunchPage(QWidget *parent) :
     connect(this     , &LaunchPage::responseChat   , &chatPage, &chatWindow::responseChat   );
     connect(&chatPage, &chatWindow::requsetSendText, this     , &LaunchPage::requestSendText);
     connect(this     , &LaunchPage::incomingMsg    , &chatPage, &chatWindow::incomingMsg    );
+    connect(this     , &LaunchPage::historyChat    , &chatPage, &chatWindow::historyChat    );
 }
 
 LaunchPage::~LaunchPage()
@@ -178,6 +179,12 @@ void LaunchPage::requestChat(int toID, QString toUsr)
     chatPage.setWindowTitle(toUsr);
 
     emit responseChat(toID, toUsr);
+
+    // 发送历史消息
+    dbQuery.exec(QString("SELECT * FROM User%1").arg(toID));
+    while(dbQuery.next()) {
+        emit historyChat(dbQuery.value(0).toString(), dbQuery.value(1).toString());
+    }
 }
 
 void LaunchPage::sendUiLink(QString str)
