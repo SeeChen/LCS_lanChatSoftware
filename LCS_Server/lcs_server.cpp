@@ -43,8 +43,8 @@ LCS_Server::LCS_Server(QWidget *parent)
         qDebug() << dbQuery.value(0).toInt() << dbQuery.value(1).toString() << dbQuery.value(2).toString();
     }
 
-    ui->label_IP->setText(": " + ipv4->DeviceIP);
-    ui->label_Port->setText(": 6666");
+    ui->label_IP->setText(ipv4->DeviceIP);
+    ui->label_Port->setText("6666");
 
     lcsServer.listen(QHostAddress::AnyIPv4, 6666);
 
