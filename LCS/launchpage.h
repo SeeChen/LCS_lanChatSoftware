@@ -69,6 +69,8 @@ signals:
     void responseChat(int, QString);
 
     void incomingMsg(int, QString);
+
+    void historyChat(QString, QString);
 };
 
 #endif // LAUNCHPAGE_H

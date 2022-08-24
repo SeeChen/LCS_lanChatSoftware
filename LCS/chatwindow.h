@@ -67,6 +67,8 @@ public slots:
 
     void incomingMsg(int, QString);
 
+    void historyChat(QString, QString);
+
 signals:
     void requsetSendText(int, QString, int);
 

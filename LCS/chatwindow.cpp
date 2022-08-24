@@ -193,6 +193,8 @@ void chatWindow::responseChat(int oppoID, QString oppoUsr)
 {
     currentID = oppoID;
 
+    ui->labelChatting->clear();
+
     ui->label_ID->setText(QString("%1").arg(oppoID));
     ui->label_User->setText(QString(oppoUsr));
 }
@@ -204,4 +206,10 @@ void chatWindow::incomingMsg(int oppoID, QString msg)
         QString showMsg = QString("%1\n%2 : %3").arg(hisChat).arg(ui->label_User->text()).arg(msg);
         ui->labelChatting->setText(showMsg);
     }
+}
+
+void chatWindow::historyChat(QString sender, QString msg)
+{
+    QString befMsg = ui->labelChatting->text();
+    ui->labelChatting->setText(QString("%1%2 : %3\n").arg(befMsg).arg(sender=="opposite"?(ui->label_User->text()):"ME").arg(msg));
 }
