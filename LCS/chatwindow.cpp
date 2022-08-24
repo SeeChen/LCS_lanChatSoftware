@@ -121,7 +121,7 @@ void chatWindow::on_pushButtonFile_clicked()
 
 void chatWindow::on_pushButtonPic_clicked()
 {
-    QString filePath = QFileDialog::getOpenFileName(this,"Open file","D:/",tr("JPEG(*.jpg *.jpeg);; PNG(*.png);; MP3(*.mp3);; MP4(.mp4)"));
+    QString filePath = QFileDialog::getOpenFileName(this,"Open file","D:/",tr("JPEG(*.jpg *.jpeg);; PNG(*.png);; GIF(*.gif)"));
     fPath = filePath;
     if(false == filePath.isEmpty()) //如果选择文件路径有效
     {
