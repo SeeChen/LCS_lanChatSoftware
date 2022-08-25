@@ -139,6 +139,7 @@ void LCS_Server::onlineList(int UID)
     QString onlineUser = "";
     while(iter.hasNext()) {
         iter.next();
+        //利用%%隔开每一个用户
         onlineUser = onlineUser + QString("%1:%2%%").arg(iter.key()).arg(iter.value());
     }
 
