@@ -58,7 +58,7 @@ public slots:
 
     void requestSendMessage(int, QString);
 
-    void requestHis(int);
+    //void requestHis(int);
 
 // 信号
 signals:
