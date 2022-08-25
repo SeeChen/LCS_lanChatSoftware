@@ -28,7 +28,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event);
 
 public slots:
-    void responseLogin();
+    void responseError();
 
 private slots:
     void on_pushButtonLogin_clicked();

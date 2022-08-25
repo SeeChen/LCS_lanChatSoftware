@@ -114,11 +114,10 @@ bool logIn::eventFilter(QObject *watched, QEvent *event)
     return QWidget::eventFilter(watched, event);
 }
 
-void logIn::responseLogin()
+void logIn::responseError()
 {
     QMessageBox::critical(this, "登陆失败", "用户名或密码错误", QMessageBox::Retry);
 
-    ui->lineEditUsername->clear();
     ui->lineEditPassword->clear();
 }
 

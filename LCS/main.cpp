@@ -1,4 +1,4 @@
-#include "launchpage.h"
+#include "launcher.h"
 
 //delete
 
@@ -9,20 +9,17 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    /* DON'T add any code here !  Thank You!*/
-    /* If you want to see effect, please REMOVE the code you added before upload */
-    /* Thank you for your understanding */
+    Launcher launcherWin;
 
-    LaunchPage launchPage;
+        launcherWin.setMaximumSize(500, 400);
+        launcherWin.setMinimumSize(500, 400);
 
-    launchPage.setMaximumSize(400, 100);
-    launchPage.setMinimumSize(400, 100);
+        launcherWin.setObjectName("serverFrame");
+        launcherWin.setStyleSheet("QWidget#serverFrame{border-image:url(:/image/logo.png);}");
 
-    launchPage.setWindowTitle("Input Server IP Address");
+        launcherWin.setWindowTitle("LCS Client");
 
-    launchPage.show();
-
-    //delete code below after adding
+        launcherWin.show();
 
 
     return a.exec();

@@ -30,7 +30,7 @@ Register::~Register()
     delete ui;
 }
 
-void Register::responseRegister()
+void Register::responseError()
 {
     ui->lineEdit_UserName->clear();
     QMessageBox::critical(this, "注册失败", "请尝试其它用户名", QMessageBox::Retry);

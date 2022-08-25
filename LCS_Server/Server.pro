@@ -1,5 +1,4 @@
 QT       += core gui network sql
-QT       += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,36 +16,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    chat.cpp \
-    chatlist.cpp \
-    chatwindow.cpp \
-    launcher.cpp \
-    login.cpp \
+    Function/ipv4.cpp \
     main.cpp \
-    mainwindow.cpp \
-    register.cpp \
-    userdatabase.cpp
+    server.cpp
 
 HEADERS += \
     Function/ENUM_VAR.h \
-    chat.h \
-    chatlist.h \
-    chatwindow.h \
-    enum_Var.h \
-    launcher.h \
-    login.h \
-    mainwindow.h \
-    register.h \
-    userdatabase.h
+    Function/ipv4.h \
+    server.h
 
 FORMS += \
-    UI/mainwindow.ui \
-    chat.ui \
-    chatlist.ui \
-    chatwindow.ui \
-    launcher.ui \
-    login.ui \
-    register.ui
+    server.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -54,4 +34,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    LCSimage.qrc
+    res/res.qrc

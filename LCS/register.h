@@ -16,7 +16,7 @@ public:
     ~Register();
 
 public slots:
-    void responseRegister();
+    void responseError();
 
 private slots:
     void on_btn_Back_clicked();

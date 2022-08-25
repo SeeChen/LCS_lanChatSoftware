@@ -13,5 +13,6 @@
         <file>image/boldIcon.png</file>
         <file>image/italicIcon.png</file>
         <file>image/underlineIcon.png</file>
+        <file>image/logo.png</file>
     </qresource>
 </RCC>

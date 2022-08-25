@@ -40,7 +40,7 @@ chatWindow::~chatWindow()
 
 void chatWindow::on_pushButtonFile_clicked()
 {
-    QString filePath = QFileDialog::getOpenFileName(this,"Open file","D:/",tr("ZIP files(*.zip *.rar);; TEXT FILES(*.txt)"));
+    QString filePath = QFileDialog::getOpenFileName(this,"Open file","D:/",tr("All files(*.*)"));
     fPath = filePath;
     if(false == filePath.isEmpty()) //如果选择文件路径有效
     {
