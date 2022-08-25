@@ -99,8 +99,6 @@ void logIn::on_pushButtonLogin_clicked()
     emit requestLogin(UserName, md5Password);
 }
 
-
-//眼睛功能
 bool logIn::eventFilter(QObject *watched, QEvent *event)
 {
     switch (event->type()) {
