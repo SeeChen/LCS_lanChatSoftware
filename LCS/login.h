@@ -7,7 +7,6 @@
 #include <QDebug>
 #include <QEvent>
 
-
 namespace Ui {
 class logIn;
 }
